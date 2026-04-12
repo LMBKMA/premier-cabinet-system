@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop System</title>
+
+<style>
+body { font-family: Arial; background:#111; color:white; margin:0; padding:20px;}
+.wrap { max-width:1400px; margin:auto;}
+.hidden { display:none; }
+
+button { padding:8px 12px; margin:5px; border:none; border-radius:6px; cursor:pointer;}
+.add { background:green; color:white;}
+.save { background:#2563eb; color:white;}
+.delete { background:red; color:white;}
+
+.card { background:#222; padding:15px; margin-top:15px; border-radius:10px;}
+
+.priority { border:2px solid red; }
+
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+
+input, textarea, select {
+  width:100%; padding:8px; margin-top:5px;
+  background:#333; color:white; border:none; border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<div id="loginBox">
+<h2>Enter Password</h2>
+<input type="password" id="pw">
+<button onclick="unlock()">Enter</button>
+</div>
+
+<div id="app" class="hidden">
+
+<h2>Office</h2>
+
+<div class="card">
+<input id="name" placeholder="Job name">
+
+<select id="status">
+<option>Measure</option>
+<option>Design</option>
+<option>In Shop</option>
+<option>Ready for Finish</option>
+<option>In Finish</option>
+<option>Ready to Install</option>
+<option>Installed</option>
+</select>
+
+<select id="priority">
+<option>None</option>
+<option>Important</option>
+<option>Urgent</option>
+<option>Stop Everything</option>
+</select>
+
+<input id="clientAppointment" type="datetime-local">
+<input id="finishDue" type="date">
+<input id="installDate" type="date">
+
+<textarea id="notes" placeholder="Notes"></textarea>
+<input id="issues" placeholder="Issues">
+
+<button class="add" onclick="addJob()">Add Job</button>
+<button class="save" onclick="saveJobs()">Save</button>
+</div>
+
+<div id="jobs"></div>
+
+</div>
+
+<div id="projectView" class="hidden"></div>
+
+</div>
+
+<script>
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLkPGnMqFpwwgayjKssDvZxNimhCH21-Si1t0I27RK8e561k9eBjnlgr10hf5rx8iQxQ/exec';
+
+const PASSWORD = "Premier3246!";
+
+let jobs = [];
+
+function unlock(){
+if(document.getElementById('pw').value===PASSWORD){
+document.getElementById('loginBox').classList.add('hidden');
+document.getElementById('app').classList.remove('hidden');
+loadJobs();
+}
+}
+
+function getPriority(j){
+if(j.manualPriority && j.manualPriority!=="None") return j.manualPriority;
+
+let now=new Date();
+let install=new Date(j.installDate||0);
+let finish=new Date(j.finishDue||0);
+
+if(install-now<86400000) return "Stop Everything";
+if(finish-now<86400000*2) return "Urgent";
+if(finish-now<86400000*5) return "Important";
+
+return "Normal";
+}
+
+function addJob(){
+jobs.push({
+id:Date.now(),
+jobName:name.value,
+status:status.value,
+manualPriority:priority.value,
+clientAppointment:clientAppointment.value,
+finishDue:finishDue.value,
+installDate:installDate.value,
+notes:notes.value,
+issues:issues.value,
+projectSlug:name.value.toLowerCase().replace(/ /g,'-')
+});
+render();
+}
+
+function render(){
+let el=document.getElementById('jobs');
+el.innerHTML='';
+
+jobs.sort((a,b)=>new Date(a.finishDue)-new Date(b.finishDue));
+
+jobs.forEach(j=>{
+let p=getPriority(j);
+let div=document.createElement('div');
+div.className='card '+(p!=="Normal"?'priority':'');
+
+div.innerHTML=`
+<b>${j.jobName}</b><br>
+Status: ${j.status}<br>
+Priority: ${p}<br>
+Finish: ${j.finishDue||''}<br>
+Install: ${j.installDate||''}<br>
+${j.issues?'<b>Issues:</b> '+j.issues:''}<br>
+<a href="?view=project&job=${j.projectSlug}" target="_blank">Customer Link</a>
+`;
+
+el.appendChild(div);
+});
+}
+
+async function loadJobs(){
+let res=await fetch(SCRIPT_URL);
+let data=await res.json();
+jobs=data.jobs||[];
+render();
+}
+
+async function saveJobs(){
+await fetch(SCRIPT_URL,{
+method:"POST",
+body:JSON.stringify({action:"saveAll",jobs})
+});
+}
+
+let params=new URLSearchParams(location.search);
+
+if(params.get('view')==='project'){
+document.getElementById('loginBox').classList.add('hidden');
+document.getElementById('app').classList.add('hidden');
+document.getElementById('projectView').classList.remove('hidden');
+
+fetch(SCRIPT_URL+"?view=project&job="+params.get('job'))
+.then(r=>r.json())
+.then(data=>{
+let j=data.project;
+if(!j) return;
+
+document.getElementById('projectView').innerHTML=`
+<h1>${j.projectTitle||j.jobName}</h1>
+<p>${j.customerStatus||''}</p>
+<p>${j.customerNextStep||''}</p>
+
+${j.customerUpdate?'<p>'+j.customerUpdate+'</p>':''}
+
+${j.estimateLink?'<a href="'+j.estimateLink+'">Estimate</a><br>':''}
+${j.drawingsLink?'<a href="'+j.drawingsLink+'">Drawings</a><br>':''}
+${j.contractLink?'<a href="'+j.contractLink+'">Contract</a><br>':''}
+
+${j.careInstructionsLink?'<a href="'+j.careInstructionsLink+'">Care Instructions</a><br>':''}
+${j.warrantyLink?'<a href="'+j.warrantyLink+'">Warranty</a><br>':''}
+
+${j.customerRequestTitle?'<h3>Action Needed</h3><p>'+j.customerRequestTitle+'</p>':''}
+`;
+});
+}
+
+</script>
+
+</body>
+</html>
