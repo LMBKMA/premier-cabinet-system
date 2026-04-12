@@ -217,6 +217,26 @@
       word-break: break-all;
     }
 
+    .doc-links {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .doc-link {
+      display: block;
+      background: #2f2f2f;
+      color: white !important;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .doc-link:hover {
+      background: #3a3a3a;
+    }
+
     .photo-grid img {
       width: 100%;
       height: 220px;
@@ -687,17 +707,12 @@
 
   function convertGoogleDriveLink(url) {
     const str = String(url || '').trim();
-
     const match1 = str.match(/drive\.google\.com\/file\/d\/([^/]+)/);
-    if (match1) {
-      return `https://drive.google.com/uc?export=view&id=${match1[1]}`;
-    }
-
+    if (match1) return `https://drive.google.com/uc?export=view&id=${match1[1]}`;
     const match2 = str.match(/[?&]id=([^&]+)/);
     if (str.includes('drive.google.com') && match2) {
       return `https://drive.google.com/uc?export=view&id=${match2[1]}`;
     }
-
     return str;
   }
 
@@ -731,15 +746,12 @@
 
   function autoArchiveJobs() {
     const now = new Date();
-
     jobs = jobs.map(job => {
       const installed = String(job.status || '') === 'Installed';
       const installDate = parseDateValue(job.installDate);
       if (!installed || !installDate) return { ...job, isArchived: job.isArchived || '' };
-
       const archiveDate = new Date(installDate);
       archiveDate.setDate(archiveDate.getDate() + 7);
-
       return {
         ...job,
         isArchived: archiveDate <= now ? 'TRUE' : ''
@@ -827,23 +839,18 @@
     return [...getActiveJobs()].sort((a, b) => {
       const priorityDiff = priorityRank(getEffectivePriority(a)) - priorityRank(getEffectivePriority(b));
       if (priorityDiff !== 0) return priorityDiff;
-
       const dateDiff = getSortDate(a).getTime() - getSortDate(b).getTime();
       if (dateDiff !== 0) return dateDiff;
-
       return String(a.jobName || '').localeCompare(String(b.jobName || ''));
     });
   }
 
   function setView(view) {
     currentView = view;
-
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-
     const target = document.getElementById(view + 'View');
     if (target) target.classList.add('active');
-
     const tab = document.getElementById('tab' + view.charAt(0).toUpperCase() + view.slice(1));
     if (tab) tab.classList.add('active');
   }
@@ -896,7 +903,6 @@
       setLoginMsg('Wrong password.');
       return;
     }
-
     document.getElementById('loginBox').classList.add('hidden');
     document.getElementById('appShell').classList.remove('hidden');
     setView('office');
@@ -979,12 +985,10 @@
   function updateJob(id, key, value) {
     const job = jobs.find(j => String(j.id) === String(id));
     if (!job) return;
-
     job[key] = value;
     if (key === 'projectTitle' && !job.projectSlug) {
       job.projectSlug = slugify(value);
     }
-
     render();
     queueAutosave();
   }
@@ -1020,7 +1024,6 @@
     el.innerHTML = '';
 
     const sorted = getSortedJobs();
-
     if (!sorted.length) {
       el.innerHTML = '<div class="job">No jobs yet.</div>';
       return;
@@ -1198,12 +1201,10 @@
     const priorityJobs = sorted.filter(job => {
       const priority = getEffectivePriority(job);
       const status = String(job.status || '').trim();
-
       if (priority === 'Normal') return false;
       if (status === 'Measure') return false;
       if (status === 'Design') return false;
       if (status === 'Installed') return false;
-
       return true;
     }).slice(0, 4);
 
@@ -1328,20 +1329,20 @@
 
       <div class="project-card">
         <h2>Project Documents</h2>
-        <div class="link-list">
-          ${job.estimateLink ? `<a href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : ''}
-          ${job.drawingsLink ? `<a href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : ''}
-          ${job.contractLink ? `<a href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : ''}
-          ${job.appliancesLink ? `<a href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''}
+        <div class="doc-links">
+          ${job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : ''}
+          ${job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : ''}
+          ${job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : ''}
+          ${job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''}
           ${!job.estimateLink && !job.drawingsLink && !job.contractLink && !job.appliancesLink ? '<div class="section">No project documents yet.</div>' : ''}
         </div>
       </div>
 
       <div class="project-card">
         <h2>Care & Warranty</h2>
-        <div class="link-list">
-          ${job.careInstructionsLink ? `<a href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : ''}
-          ${job.warrantyLink ? `<a href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''}
+        <div class="doc-links">
+          ${job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : ''}
+          ${job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''}
           ${!job.careInstructionsLink && !job.warrantyLink ? '<div class="section">No care or warranty documents added yet.</div>' : ''}
         </div>
       </div>
@@ -1357,7 +1358,7 @@
                   return `
                     <div class="project-card" style="margin:0; padding:12px;">
                       <div class="section">iCloud photo link</div>
-                      <a href="${escapeHtml(raw)}" target="_blank">Open Photo</a>
+                      <a class="doc-link" href="${escapeHtml(raw)}" target="_blank">Open Photo</a>
                     </div>
                   `;
                 }
@@ -1373,7 +1374,7 @@
         ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
         ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
         ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
-        ${job.customerRequestLink ? `<a href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
+        ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
         ${!job.customerRequestTitle && !job.customerRequestDetails && !job.customerRequestStatus && !job.customerRequestLink ? '<div class="section">No action needed right now.</div>' : ''}
       </div>
     `;
@@ -1436,48 +1437,6 @@
       console.error(e);
       setStatus('Save failed');
     }
-  }
-
-  function applyMode() {
-    const appShell = document.getElementById('appShell');
-    const loginBox = document.getElementById('loginBox');
-    const saveBtn = document.getElementById('saveBtn');
-    const tabOffice = document.getElementById('tabOffice');
-    const tabTv = document.getElementById('tabTv');
-
-    if (queryView === 'tv') {
-      document.body.classList.add('tv-mode');
-      loginBox.classList.add('hidden');
-      appShell.classList.remove('hidden');
-      saveBtn.classList.add('hidden');
-      tabOffice.classList.add('hidden');
-      setView('tv');
-      loadJobs();
-      return;
-    }
-
-    if (queryView === 'finish') {
-      loginBox.classList.add('hidden');
-      appShell.classList.remove('hidden');
-      saveBtn.classList.add('hidden');
-      tabOffice.classList.add('hidden');
-      tabTv.classList.add('hidden');
-      setView('finish');
-      loadJobs();
-      return;
-    }
-
-    if (queryView === 'project') {
-      loginBox.classList.add('hidden');
-      appShell.classList.remove('hidden');
-      document.getElementById('toolbar').classList.add('hidden');
-      setView('project');
-      loadProject(queryJob);
-      return;
-    }
-
-    appShell.classList.add('hidden');
-    loginBox.classList.remove('hidden');
   }
 
   applyMode();
