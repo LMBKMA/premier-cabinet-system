@@ -76,6 +76,7 @@
     }
 
     .brand img {
+      max-height: 70px;
       height: 120px;
       max-width: 420px;
       object-fit: contain;
@@ -88,6 +89,7 @@
     }
 
     body.tv-mode .brand img {
+      max-height: 70px;
       height: 58px;
       max-width: 220px;
       filter: none;
@@ -201,7 +203,7 @@
 
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 2fr 1fr;
       gap: 12px;
       margin-top: 10px;
     }
@@ -539,7 +541,7 @@
     }
 
     body.tv-mode .tv-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 2fr 1fr;
       gap: 10px;
       flex: 1 1 auto;
       min-height: 0;
@@ -557,7 +559,7 @@
 
     body.tv-mode #priorityNow,
     body.tv-mode #tvIssuesTop {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 2fr 1fr;
       gap: 10px;
     }
 
@@ -735,6 +737,7 @@
     }
 
     body.tv-mode .brand img {
+      max-height: 70px;
       height: 62px;
       max-width: 240px;
     }
@@ -779,6 +782,7 @@
       }
 
       .brand img {
+      max-height: 70px;
         height: 90px;
         max-width: 320px;
       }
@@ -842,6 +846,7 @@
     }
 
     body.project-mode .brand img {
+      max-height: 70px;
       height: 68px;
       max-width: 220px;
     }
@@ -954,6 +959,7 @@
       }
 
       body.project-mode .brand img {
+      max-height: 70px;
         height: 56px;
         max-width: 190px;
       }
@@ -1303,7 +1309,7 @@
 
     .milestone-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: 2fr 1fr;
       gap: 12px;
       margin-top: 14px;
     }
