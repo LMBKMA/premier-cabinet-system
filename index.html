@@ -97,7 +97,8 @@
     }
 
     body.tv-mode .toolbar {
-      margin-bottom: 10px;
+      display: none !important;
+      margin-bottom: 0;
     }
 
     button {
@@ -1865,6 +1866,7 @@
         document.body.classList.add('tv-mode');
         loginBox.classList.add('hidden');
         appShell.classList.remove('hidden');
+        toolbar.classList.add('hidden');
         saveBtn.classList.add('hidden');
         reloadBtn.classList.add('hidden');
         tabOffice.classList.add('hidden');
