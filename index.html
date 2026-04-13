@@ -2418,6 +2418,7 @@
         const priority = getEffectivePriority(job);
         const reason =
           String(job.priorityReason || '').trim() ||
+          String(job.issues || '').trim() ||
           autoPriorityReason(job);
 
         return `
