@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -413,7 +414,135 @@
       padding-bottom: 16px;
     }
 
+
+    .tv-top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex: 0 0 auto;
+    }
+
+    #priorityNow,
+    #tvIssuesTop {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .admin-toolbar {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.2fr;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .admin-toggle {
+      display: grid;
+      gap: 10px;
+      padding-bottom: 6px;
+    }
+
+    .admin-toggle label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .admin-toggle input {
+      width: auto;
+      margin: 0;
+    }
+
+    .admin-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .summary-card {
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .summary-number {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    body.tv-mode {
+      overflow: hidden;
+      padding: 10px;
+      height: 100vh;
+      font-size: clamp(13px, 1.2vw, 18px);
+      cursor: none;
+    }
+
+    body.tv-mode .wrap {
+      max-width: none;
+      height: calc(100vh - 20px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body.tv-mode #tvView.active {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    body.tv-mode #brandBar {
+      margin-bottom: 8px;
+      flex: 0 0 auto;
+    }
+
+    body.tv-mode .brand img {
+      height: 62px;
+      max-width: 240px;
+    }
+
+    body.tv-mode .tv-grid {
+      flex: 1;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+
+    body.tv-mode .tv-top-row .card,
+    body.tv-mode .tv-grid .card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    body.tv-mode .column-footer {
+      margin-top: auto;
+    }
+
     @media (max-width: 1100px) {
+      .tv-top-row,
+      .admin-toolbar,
+      .admin-summary,
+      #priorityNow,
+      #tvIssuesTop,
+      .tv-grid,
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      body.tv-mode {
+        overflow: auto;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 900px) {
       .tv-grid,
       .photo-grid {
         grid-template-columns: 1fr;
@@ -460,6 +589,7 @@
         <button id="tabOffice" class="tab active" onclick="setView('office')">Office</button>
         <button id="tabTv" class="tab" onclick="setView('tv')">TV</button>
         <button id="tabFinish" class="tab" onclick="setView('finish')">Finish</button>
+        <button id="tabAdmin" class="tab" onclick="setView('admin')">Admin</button>
         <button id="saveBtn" class="save" onclick="saveJobs()">Save</button>
         <button id="reloadBtn" class="reload" onclick="loadJobs()">Reload</button>
         <div id="statusMsg"></div>
@@ -637,9 +767,16 @@
       </div>
 
       <div id="tvView" class="view">
-        <div class="card">
-          <h2>Priority Now</h2>
-          <div id="priorityNow"></div>
+        <div class="tv-top-row">
+          <div class="card">
+            <h2>Priority Now</h2>
+            <div id="priorityNow"></div>
+          </div>
+
+          <div class="card">
+            <h2>Issues</h2>
+            <div id="tvIssuesTop"></div>
+          </div>
         </div>
 
         <div class="tv-grid">
@@ -661,16 +798,50 @@
             <div id="tvFinishFooter" class="column-footer"></div>
           </div>
         </div>
-
-        <div class="card">
-          <h3>Issues</h3>
-          <div id="tvIssues"></div>
-        </div>
       </div>
 
       <div id="finishView" class="view">
         <h2>Finish Board</h2>
         <div id="finishJobs"></div>
+      </div>
+
+      <div id="adminView" class="view">
+        <h2>Admin Dashboard</h2>
+
+        <div class="card">
+          <div class="admin-toolbar">
+            <div>
+              <label>Search</label>
+              <input id="adminSearch" placeholder="Job or client name" oninput="renderAdmin()">
+            </div>
+
+            <div>
+              <label>Status</label>
+              <select id="adminStatusFilter" onchange="renderAdmin()">
+                <option value="">All statuses</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Priority</label>
+              <select id="adminPriorityFilter" onchange="renderAdmin()">
+                <option value="">All priorities</option>
+                <option>Important</option>
+                <option>Urgent</option>
+                <option>Stop Everything</option>
+                <option>Normal</option>
+              </select>
+            </div>
+
+            <div class="admin-toggle">
+              <label><input id="adminIssuesOnly" type="checkbox" onchange="renderAdmin()"> Issues only</label>
+              <label><input id="adminUpcomingOnly" type="checkbox" onchange="renderAdmin()"> Upcoming only</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-summary" id="adminSummary"></div>
+        <div id="adminJobs"></div>
       </div>
 
       <div id="projectView" class="view">
@@ -1020,8 +1191,11 @@
       const appShell = $('appShell');
       const loginBox = $('loginBox');
       const saveBtn = $('saveBtn');
+      const reloadBtn = $('reloadBtn');
       const tabOffice = $('tabOffice');
       const tabTv = $('tabTv');
+      const tabFinish = $('tabFinish');
+      const tabAdmin = $('tabAdmin');
       const toolbar = $('toolbar');
 
       if (queryView === 'tv') {
@@ -1029,9 +1203,14 @@
         loginBox.classList.add('hidden');
         appShell.classList.remove('hidden');
         saveBtn.classList.add('hidden');
+        reloadBtn.classList.add('hidden');
         tabOffice.classList.add('hidden');
+        tabTv.classList.add('hidden');
+        tabFinish.classList.add('hidden');
+        tabAdmin.classList.add('hidden');
         setView('tv');
         loadJobs();
+        setInterval(() => location.reload(), 1000 * 60 * 60 * 4);
         return;
       }
 
@@ -1041,7 +1220,17 @@
         saveBtn.classList.add('hidden');
         tabOffice.classList.add('hidden');
         tabTv.classList.add('hidden');
+        tabAdmin.classList.add('hidden');
         setView('finish');
+        loadJobs();
+        return;
+      }
+
+      if (queryView === 'admin') {
+        loginBox.classList.add('hidden');
+        appShell.classList.remove('hidden');
+        saveBtn.classList.add('hidden');
+        setView('admin');
         loadJobs();
         return;
       }
@@ -1442,6 +1631,32 @@
       }).join('');
     }
 
+    function getMaxItemsPerColumn() {
+      const height = window.innerHeight || 900;
+      if (height < 700) return 2;
+      if (height < 850) return 3;
+      if (height < 1000) return 4;
+      return 5;
+    }
+
+    function renderTvIssues(sortedJobs) {
+      const issuesEl = $('tvIssuesTop');
+      const issueJobs = sortedJobs.filter(job => String(job.issues || '').trim()).slice(0, 4);
+
+      if (!issueJobs.length) {
+        issuesEl.innerHTML = '<div class="job">No issues right now.</div>';
+        return;
+      }
+
+      issuesEl.innerHTML = issueJobs.map(job => `
+        <div class="job priority-mini">
+          <div class="title">${escapeHtml(job.jobName)}</div>
+          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+          <div class="section issue">${escapeHtml(job.issues || '')}</div>
+        </div>
+      `).join('');
+    }
+
     function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
       const container = $(targetId);
       const footer = $(footerId);
@@ -1467,30 +1682,106 @@
 
     function renderTv() {
       const sorted = getSortedJobs();
-      const issuesEl = $('tvIssues');
+      const maxItems = getMaxItemsPerColumn();
 
       renderPriorityNow(sorted);
+      renderTvIssues(sorted);
 
       const officeJobs = sorted.filter(job => job.status === 'Measure' || job.status === 'Design');
       const shopJobs = sorted.filter(job => job.status === 'In Shop' || job.status === 'Ready to Install');
       const finishJobs = sorted.filter(job => job.status === 'Ready for Finish' || job.status === 'In Finish');
 
-      renderTvColumn('tvOffice', officeJobs, 'No office jobs.', 4, 'tvOfficeFooter');
-      renderTvColumn('tvShop', shopJobs, 'No shop jobs.', 4, 'tvShopFooter');
-      renderTvColumn('tvFinish', finishJobs, 'No finish jobs.', 4, 'tvFinishFooter');
+      renderTvColumn('tvOffice', officeJobs, 'No office jobs.', maxItems, 'tvOfficeFooter');
+      renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
+      renderTvColumn('tvFinish', finishJobs, 'No finish jobs.', maxItems, 'tvFinishFooter');
+    }
 
-      const issueJobs = sorted.filter(job => String(job.issues || '').trim()).slice(0, 4);
+    function renderAdminSummary(filteredJobs) {
+      $('adminSummary').innerHTML = `
+        <div class="summary-card">
+          <div class="summary-number">${filteredJobs.length}</div>
+          <div class="section">Visible Jobs</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number">${filteredJobs.filter(job => String(job.issues || '').trim()).length}</div>
+          <div class="section">Open Issues</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number">${filteredJobs.filter(job => ['Urgent', 'Stop Everything'].includes(getEffectivePriority(job))).length}</div>
+          <div class="section">Urgent</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number">${filteredJobs.filter(job => {
+            const installDays = daysUntil(job.installDate);
+            return installDays !== null && installDays >= 0 && installDays <= 7;
+          }).length}</div>
+          <div class="section">Installs in 7 Days</div>
+        </div>
+      `;
+    }
 
-      if (!issueJobs.length) {
-        issuesEl.innerHTML = '<div class="job">No issues right now.</div>';
+    function renderAdmin() {
+      const container = $('adminJobs');
+      const statusFilter = $('adminStatusFilter');
+      const priorityFilter = $('adminPriorityFilter');
+      const searchInput = $('adminSearch');
+      const issuesOnly = $('adminIssuesOnly');
+      const upcomingOnly = $('adminUpcomingOnly');
+
+      if (!container || !statusFilter || !priorityFilter || !searchInput || !issuesOnly || !upcomingOnly) {
         return;
       }
 
-      issuesEl.innerHTML = issueJobs.map(job => `
+      const activeJobs = getSortedJobs();
+      const currentStatus = statusFilter.value;
+      const currentPriority = priorityFilter.value;
+      const currentSearch = String(searchInput.value || '').trim().toLowerCase();
+
+      const filtered = activeJobs.filter(job => {
+        if (currentStatus && String(job.status || '') !== currentStatus) return false;
+        if (currentPriority && String(getEffectivePriority(job)) !== currentPriority) return false;
+        if (issuesOnly.checked && !String(job.issues || '').trim()) return false;
+
+        if (upcomingOnly.checked) {
+          const appointmentDays = daysUntil(job.clientAppointment);
+          const finishDueDays = daysUntil(job.finishDue);
+          const installDays = daysUntil(job.installDate);
+          const soon = [appointmentDays, finishDueDays, installDays].some(value => value !== null && value >= 0 && value <= 7);
+          if (!soon) return false;
+        }
+
+        if (currentSearch) {
+          const haystack = [
+            job.jobName,
+            job.clientName,
+            job.projectTitle,
+            job.notes,
+            job.shop,
+            job.issues
+          ].join(' ').toLowerCase();
+
+          if (!haystack.includes(currentSearch)) return false;
+        }
+
+        return true;
+      });
+
+      renderAdminSummary(filtered);
+
+      if (!filtered.length) {
+        container.innerHTML = '<div class="job">No jobs match the current filters.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(job => `
         <div class="job">
-          <div class="title">${escapeHtml(job.jobName)}</div>
-          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
-          <div class="section issue">${escapeHtml(job.issues)}</div>
+          ${buildInternalCard(job, true)}
+          <div class="grid" style="margin-top: 8px;">
+            <div>${job.clientName ? `<div class="section">Client: ${escapeHtml(job.clientName)}</div>` : ''}</div>
+            <div>${job.projectTitle ? `<div class="section">Project: ${escapeHtml(job.projectTitle)}</div>` : ''}</div>
+            <div>${job.customerUpdate ? `<div class="section">Customer Update: ${escapeHtml(job.customerUpdate)}</div>` : ''}</div>
+            <div>${job.customerRequestTitle ? `<div class="section">Customer Request: ${escapeHtml(job.customerRequestTitle)}</div>` : ''}</div>
+          </div>
         </div>
       `).join('');
     }
@@ -1591,10 +1882,22 @@
       `;
     }
 
+    function populateAdminFilters() {
+      const statusFilter = $('adminStatusFilter');
+      if (!statusFilter) return;
+
+      const currentValue = statusFilter.value;
+      statusFilter.innerHTML = '<option value="">All statuses</option>' +
+        STATUS_OPTIONS.map(option => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join('');
+      statusFilter.value = currentValue;
+    }
+
     function render() {
       renderOffice();
       renderTv();
       renderFinish();
+      populateAdminFilters();
+      renderAdmin();
     }
 
     async function loadJobs() {
