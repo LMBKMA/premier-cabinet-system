@@ -17,7 +17,6 @@
       --orange: #ea580c;
       --cyan: #38bdf8;
       --pink: #fda4af;
-      --border: rgba(255,255,255,0.08);
     }
 
     * { box-sizing: border-box; }
@@ -35,6 +34,1436 @@
       padding: 12px;
     }
 
+    .wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .brand img {
+      height: 120px;
+      max-width: 420px;
+      object-fit: contain;
+    }
+
+    body.tv-mode .brand {
+      margin-bottom: 10px;
+    }
+
+    body.tv-mode .brand img {
+      height: 72px;
+      max-width: 280px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    body.tv-mode .toolbar {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .tab { background: #444; color: white; }
+    .tab.active { background: var(--blue); }
+    .save { background: var(--blue); color: white; }
+    .reload { background: #555; color: white; }
+    .add { background: var(--green); color: white; }
+    .delete { background: var(--red); color: white; }
+
+    .card, .job, .priority-card, .project-card {
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .priority-card {
+      border: 2px solid var(--amber);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .tv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: none;
+      border-radius: 6px;
+      background: #333;
+      color: white;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    body.tv-mode h2,
+    body.tv-mode h3 {
+      margin-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .stage {
+      color: var(--cyan);
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .section {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .issue {
+      color: var(--pink);
+      font-weight: bold;
+    }
+
+    .priority-badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .priority-normal { background: #4b5563; }
+    .priority-important { background: var(--amber); }
+    .priority-urgent { background: var(--orange); }
+    .priority-stop { background: var(--red); }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    #statusMsg {
+      color: #9ad;
+      font-size: 14px;
+      min-width: 100px;
+    }
+
+    .link-list a, .project-card a, .customer-link a {
+      color: #93c5fd;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 6px;
+      word-break: break-all;
+    }
+
+    .doc-links {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .doc-link {
+      display: block;
+      background: #2f2f2f;
+      color: white !important;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .doc-link:hover {
+      background: #3a3a3a;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #1a1a1a;
+    }
+
+    .login-box {
+      max-width: 420px;
+      margin: 80px auto 0;
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .priority-mini {
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+
+    .priority-mini .title {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .priority-mini .priority-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      margin-bottom: 6px;
+    }
+
+    .priority-mini .section {
+      font-size: 12px;
+      line-height: 1.25;
+      margin-top: 2px;
+    }
+
+    body.tv-mode .job,
+    body.tv-mode .card,
+    body.tv-mode .priority-card {
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+
+    body.tv-mode .title {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    body.tv-mode .stage {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    body.tv-mode .section {
+      font-size: 12px;
+      line-height: 1.25;
+      margin-top: 4px;
+    }
+
+    body.tv-mode .priority-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      margin-bottom: 6px;
+    }
+
+    .column-footer {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 1100px) {
+      .tv-grid, .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      body.tv-mode {
+        overflow: auto;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brand img {
+        height: 90px;
+        max-width: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand" id="brandBar">
+    <img src="https://img1.wsimg.com/isteam/ip/672fba43-399a-42d9-af67-f51f53c710a9/logo%20website.png" alt="Premier Cabinet & Wood logo">
+  </div>
+
+  <div id="loginBox" class="login-box">
+    <h2>Office Login</h2>
+    <label for="pw">Password</label>
+    <input id="pw" type="password" />
+    <div style="margin-top: 12px;">
+      <button class="save" onclick="unlockOffice()">Enter</button>
+    </div>
+    <div id="loginMsg" class="section"></div>
+  </div>
+
+  <div id="appShell" class="hidden">
+    <div class="toolbar" id="toolbar">
+      <button id="tabOffice" class="tab active" onclick="setView('office')">Office</button>
+      <button id="tabTv" class="tab" onclick="setView('tv')">TV</button>
+      <button id="tabFinish" class="tab" onclick="setView('finish')">Finish</button>
+      <button id="saveBtn" class="save" onclick="saveJobs()">Save</button>
+      <button id="reloadBtn" class="reload" onclick="loadJobs()">Reload</button>
+      <div id="statusMsg"></div>
+    </div>
+
+    <div id="officeView" class="view active">
+      <h2>Office</h2>
+
+      <div class="card">
+        <h3>Add Job</h3>
+
+        <div class="grid">
+          <div>
+            <label>Job Name</label>
+            <input id="jobName" placeholder="Kitchen Project">
+          </div>
+
+          <div>
+            <label>Client Name</label>
+            <input id="clientName" placeholder="John Smith">
+          </div>
+
+          <div>
+            <label>Project Title (customer sees this)</label>
+            <input id="projectTitle" placeholder="Smith Kitchen Project">
+          </div>
+
+          <div>
+            <label>Project Slug (customer link id)</label>
+            <input id="projectSlug" placeholder="smith-kitchen-project">
+          </div>
+
+          <div>
+            <label>Status</label>
+            <select id="status">
+              <option>Measure</option>
+              <option>Design</option>
+              <option>In Shop</option>
+              <option>Ready for Finish</option>
+              <option>In Finish</option>
+              <option>Ready to Install</option>
+              <option>Installed</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Manual Priority</label>
+            <select id="manualPriority">
+              <option>None</option>
+              <option>Important</option>
+              <option>Urgent</option>
+              <option>Stop Everything</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Priority Reason</label>
+            <textarea id="priorityReason" placeholder="Why this jumps the line"></textarea>
+          </div>
+
+          <div>
+            <label>Client Appointment Date & Time</label>
+            <input id="clientAppointment" type="datetime-local">
+          </div>
+
+          <div>
+            <label>Gets to Finish On</label>
+            <input id="finishStartDate" type="date">
+          </div>
+
+          <div>
+            <label>Finish Due</label>
+            <input id="finishDue" type="date">
+          </div>
+
+          <div>
+            <label>Install Date</label>
+            <input id="installDate" type="date">
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top: 8px;">
+          <div>
+            <label>Notes</label>
+            <textarea id="notes" placeholder="Internal notes"></textarea>
+          </div>
+
+          <div>
+            <label>Shop Tasks</label>
+            <textarea id="shop" placeholder="boxes, doors, face frames"></textarea>
+          </div>
+
+          <div>
+            <label>Issues</label>
+            <textarea id="issues" placeholder="waiting on hardware"></textarea>
+          </div>
+
+          <div>
+            <label>Customer Status</label>
+            <textarea id="customerStatus" placeholder="Your cabinetry is in finishing."></textarea>
+          </div>
+
+          <div>
+            <label>Customer Next Step</label>
+            <textarea id="customerNextStep" placeholder="Next step for customer"></textarea>
+          </div>
+
+          <div>
+            <label>Customer Update</label>
+            <textarea id="customerUpdate" placeholder="Latest update visible to customer"></textarea>
+          </div>
+
+          <div>
+            <label>Estimate Link</label>
+            <input id="estimateLink" placeholder="https://...">
+          </div>
+
+          <div>
+            <label>Drawings Link</label>
+            <input id="drawingsLink" placeholder="https://...">
+          </div>
+
+          <div>
+            <label>Contract Link</label>
+            <input id="contractLink" placeholder="https://...">
+          </div>
+
+          <div>
+            <label>Appliances Link</label>
+            <input id="appliancesLink" placeholder="https://...">
+          </div>
+
+          <div>
+            <label>Photo Links (one per line)</label>
+            <textarea id="photoLinks" placeholder="Google Drive, Dropbox, or iCloud links"></textarea>
+          </div>
+
+          <div>
+            <label>Care Instructions Link</label>
+            <input id="careInstructionsLink" placeholder="https://...">
+          </div>
+
+          <div>
+            <label>Warranty Link</label>
+            <input id="warrantyLink" placeholder="https://...">
+          </div>
+
+          <div>
+            <label>Customer Request Title</label>
+            <input id="customerRequestTitle" placeholder="Appliance specs needed">
+          </div>
+
+          <div>
+            <label>Customer Request Details</label>
+            <textarea id="customerRequestDetails" placeholder="What you need from the customer"></textarea>
+          </div>
+
+          <div>
+            <label>Customer Request Status</label>
+            <input id="customerRequestStatus" placeholder="Waiting on customer">
+          </div>
+
+          <div>
+            <label>Customer Request Link</label>
+            <input id="customerRequestLink" placeholder="https://...">
+          </div>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <button class="add" onclick="addJob()">Add Job</button>
+        </div>
+      </div>
+
+      <div id="officeJobs"></div>
+    </div>
+
+    <div id="tvView" class="view">
+      <div class="card">
+        <h2>Priority Now</h2>
+        <div id="priorityNow"></div>
+      </div>
+
+      <div class="tv-grid">
+        <div class="card">
+          <h3>Office</h3>
+          <div id="tvOffice"></div>
+          <div id="tvOfficeFooter" class="column-footer"></div>
+        </div>
+
+        <div class="card">
+          <h3>Shop</h3>
+          <div id="tvShop"></div>
+          <div id="tvShopFooter" class="column-footer"></div>
+        </div>
+
+        <div class="card">
+          <h3>Finish</h3>
+          <div id="tvFinish"></div>
+          <div id="tvFinishFooter" class="column-footer"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Issues</h3>
+        <div id="tvIssues"></div>
+      </div>
+    </div>
+
+    <div id="finishView" class="view">
+      <h2>Finish Board</h2>
+      <div id="finishJobs"></div>
+    </div>
+
+    <div id="projectView" class="view">
+      <div id="projectContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLkPGnMqFpwwgayjKssDvZxNimhCH21-Si1t0I27RK8e561k9eBjnlgr10hf5rx8iQxQ/exec';
+  const OFFICE_PASSWORD = 'Premier3246!';
+
+  const STATUS_OPTIONS = [
+    'Measure',
+    'Design',
+    'In Shop',
+    'Ready for Finish',
+    'In Finish',
+    'Ready to Install',
+    'Installed'
+  ];
+
+  const MANUAL_PRIORITY_OPTIONS = [
+    'None',
+    'Important',
+    'Urgent',
+    'Stop Everything'
+  ];
+
+  let jobs = [];
+  let autosaveTimer = null;
+  let currentView = 'office';
+  const params = new URLSearchParams(window.location.search);
+  const queryView = params.get('view');
+  const queryJob = params.get('job');
+
+  function setStatus(msg) {
+    document.getElementById('statusMsg').textContent = msg || '';
+  }
+
+  function setLoginMsg(msg) {
+    document.getElementById('loginMsg').textContent = msg || '';
+  }
+
+  function slugify(text) {
+    return String(text || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function uid() {
+    return Date.now().toString() + Math.random().toString(36).slice(2, 8);
+  }
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function parseDateValue(value) {
+    if (!value) return null;
+    const trimmed = String(value).trim();
+    if (!trimmed) return null;
+
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(trimmed)) {
+      const d = new Date(trimmed);
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+      const d = new Date(trimmed + 'T00:00:00');
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    const fallback = new Date(trimmed);
+    return isNaN(fallback.getTime()) ? null : fallback;
+  }
+
+  function formatDate(value) {
+    const d = parseDateValue(value);
+    if (!d) return value || '—';
+
+    const hasTime = String(value || '').includes('T') || String(value || '').includes(':');
+    const datePart = d.toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    if (!hasTime) return datePart;
+
+    const timePart = d.toLocaleTimeString(undefined, {
+      hour: 'numeric',
+      minute: '2-digit'
+    });
+
+    return `${datePart} ${timePart}`;
+  }
+
+  function toInputDate(value) {
+    const d = parseDateValue(value);
+    if (!d) return '';
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function toDateTimeLocal(value) {
+    const d = parseDateValue(value);
+    if (!d) return '';
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  function daysUntil(value) {
+    const d = parseDateValue(value);
+    if (!d) return null;
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const target = new Date(d);
+    target.setHours(0, 0, 0, 0);
+    return Math.round((target - now) / 86400000);
+  }
+
+  function convertGoogleDriveLink(url) {
+    const str = String(url || '').trim();
+    const match1 = str.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    if (match1) return `https://drive.google.com/uc?export=view&id=${match1[1]}`;
+    const match2 = str.match(/[?&]id=([^&]+)/);
+    if (str.includes('drive.google.com') && match2) {
+      return `https://drive.google.com/uc?export=view&id=${match2[1]}`;
+    }
+    return str;
+  }
+
+  function convertDropboxLink(url) {
+    const str = String(url || '').trim();
+    if (!str.includes('dropbox.com')) return str;
+    if (str.includes('?dl=0')) return str.replace('?dl=0', '?raw=1');
+    if (str.includes('&dl=0')) return str.replace('&dl=0', '&raw=1');
+    if (str.includes('?raw=1') || str.includes('&raw=1')) return str;
+    return str.includes('?') ? `${str}&raw=1` : `${str}?raw=1`;
+  }
+
+  function normalizePhotoLink(url) {
+    const str = String(url || '').trim();
+    if (!str) return '';
+    if (str.includes('drive.google.com')) return convertGoogleDriveLink(str);
+    if (str.includes('dropbox.com')) return convertDropboxLink(str);
+    return str;
+  }
+
+  function isIcloudPhotoLink(url) {
+    return String(url || '').includes('share.icloud.com/photos/');
+  }
+
+  function photoList(value) {
+    return String(value || '')
+      .split(/\n|\|/)
+      .map(v => v.trim())
+      .filter(Boolean);
+  }
+
+  function autoArchiveJobs() {
+    const now = new Date();
+    jobs = jobs.map(job => {
+      const installed = String(job.status || '') === 'Installed';
+      const installDate = parseDateValue(job.installDate);
+      if (!installed || !installDate) return { ...job, isArchived: job.isArchived || '' };
+      const archiveDate = new Date(installDate);
+      archiveDate.setDate(archiveDate.getDate() + 7);
+      return {
+        ...job,
+        isArchived: archiveDate <= now ? 'TRUE' : ''
+      };
+    });
+  }
+
+  function getActiveJobs() {
+    autoArchiveJobs();
+    return jobs.filter(j => String(j.isArchived || '').toUpperCase() !== 'TRUE');
+  }
+
+  function autoPriorityReason(job) {
+    const apptDays = daysUntil(job.clientAppointment);
+    const finishStartDays = daysUntil(job.finishStartDate);
+    const finishDueDays = daysUntil(job.finishDue);
+    const installDays = daysUntil(job.installDate);
+
+    if (apptDays === 0) return 'Client appointment today';
+    if (finishDueDays !== null && finishDueDays < 0) return 'Finish overdue';
+    if (installDays === 1) return 'Install tomorrow';
+    if (apptDays === 1) return 'Client appointment tomorrow';
+    if (finishStartDays !== null && finishStartDays <= 1) return 'Needs to go to finish now';
+    if (finishDueDays !== null && finishDueDays <= 2) return 'Finish due soon';
+    if (installDays !== null && installDays <= 2) return 'Install coming up';
+    if (apptDays !== null && apptDays <= 3) return 'Appointment coming up';
+    if (finishDueDays !== null && finishDueDays <= 5) return 'Finish coming up';
+    if (installDays !== null && installDays <= 5) return 'Install coming up';
+    return '';
+  }
+
+  function getAutoPriority(job) {
+    const apptDays = daysUntil(job.clientAppointment);
+    const finishStartDays = daysUntil(job.finishStartDate);
+    const finishDueDays = daysUntil(job.finishDue);
+    const installDays = daysUntil(job.installDate);
+
+    if (apptDays === 0) return 'Stop Everything';
+    if (finishDueDays !== null && finishDueDays < 0) return 'Stop Everything';
+    if (installDays === 1) return 'Stop Everything';
+
+    if (apptDays === 1) return 'Urgent';
+    if (finishStartDays !== null && finishStartDays <= 1) return 'Urgent';
+    if (finishDueDays !== null && finishDueDays <= 2) return 'Urgent';
+    if (installDays !== null && installDays <= 2) return 'Urgent';
+
+    if (apptDays !== null && apptDays <= 3) return 'Important';
+    if (finishDueDays !== null && finishDueDays <= 5) return 'Important';
+    if (installDays !== null && installDays <= 5) return 'Important';
+
+    return 'Normal';
+  }
+
+  function getEffectivePriority(job) {
+    const manual = String(job.manualPriority || 'None');
+    if (manual && manual !== 'None') return manual;
+    return getAutoPriority(job);
+  }
+
+  function priorityRank(priority) {
+    if (priority === 'Stop Everything') return 1;
+    if (priority === 'Urgent') return 2;
+    if (priority === 'Important') return 3;
+    return 4;
+  }
+
+  function priorityClass(priority) {
+    if (priority === 'Stop Everything') return 'priority-stop';
+    if (priority === 'Urgent') return 'priority-urgent';
+    if (priority === 'Important') return 'priority-important';
+    return 'priority-normal';
+  }
+
+  function getSortDate(job) {
+    return (
+      parseDateValue(job.clientAppointment) ||
+      parseDateValue(job.finishStartDate) ||
+      parseDateValue(job.finishDue) ||
+      parseDateValue(job.installDate) ||
+      new Date('9999-12-31T00:00:00')
+    );
+  }
+
+  function getSortedJobs() {
+    return [...getActiveJobs()].sort((a, b) => {
+      const priorityDiff = priorityRank(getEffectivePriority(a)) - priorityRank(getEffectivePriority(b));
+      if (priorityDiff !== 0) return priorityDiff;
+      const dateDiff = getSortDate(a).getTime() - getSortDate(b).getTime();
+      if (dateDiff !== 0) return dateDiff;
+      return String(a.jobName || '').localeCompare(String(b.jobName || ''));
+    });
+  }
+
+  function setView(view) {
+    currentView = view;
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    const target = document.getElementById(view + 'View');
+    if (target) target.classList.add('active');
+    const tab = document.getElementById('tab' + view.charAt(0).toUpperCase() + view.slice(1));
+    if (tab) tab.classList.add('active');
+  }
+
+  function applyMode() {
+    const appShell = document.getElementById('appShell');
+    const loginBox = document.getElementById('loginBox');
+    const saveBtn = document.getElementById('saveBtn');
+    const tabOffice = document.getElementById('tabOffice');
+    const tabTv = document.getElementById('tabTv');
+
+    if (queryView === 'tv') {
+      document.body.classList.add('tv-mode');
+      loginBox.classList.add('hidden');
+      appShell.classList.remove('hidden');
+      saveBtn.classList.add('hidden');
+      tabOffice.classList.add('hidden');
+      setView('tv');
+      loadJobs();
+      return;
+    }
+
+    if (queryView === 'finish') {
+      loginBox.classList.add('hidden');
+      appShell.classList.remove('hidden');
+      saveBtn.classList.add('hidden');
+      tabOffice.classList.add('hidden');
+      tabTv.classList.add('hidden');
+      setView('finish');
+      loadJobs();
+      return;
+    }
+
+    if (queryView === 'project') {
+      loginBox.classList.add('hidden');
+      appShell.classList.remove('hidden');
+      document.getElementById('toolbar').classList.add('hidden');
+      setView('project');
+      loadProject(queryJob);
+      return;
+    }
+
+    appShell.classList.add('hidden');
+    loginBox.classList.remove('hidden');
+  }
+
+  function unlockOffice() {
+    const pw = document.getElementById('pw').value;
+    if (pw !== OFFICE_PASSWORD) {
+      setLoginMsg('Wrong password.');
+      return;
+    }
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('appShell').classList.remove('hidden');
+    setView('office');
+    loadJobs();
+  }
+
+  function queueAutosave() {
+    if (currentView !== 'office') return;
+    clearTimeout(autosaveTimer);
+    autosaveTimer = setTimeout(() => {
+      saveJobs();
+    }, 2000);
+  }
+
+  function gatherFormJob() {
+    const jobName = document.getElementById('jobName').value.trim();
+    const clientName = document.getElementById('clientName').value.trim();
+    const projectTitle = document.getElementById('projectTitle').value.trim();
+    const rawSlug = document.getElementById('projectSlug').value.trim();
+
+    return {
+      id: uid(),
+      jobName,
+      clientName,
+      projectTitle,
+      projectSlug: rawSlug || slugify(projectTitle || jobName || clientName),
+      status: document.getElementById('status').value,
+      manualPriority: document.getElementById('manualPriority').value,
+      priorityReason: document.getElementById('priorityReason').value.trim(),
+      clientAppointment: document.getElementById('clientAppointment').value,
+      finishStartDate: document.getElementById('finishStartDate').value,
+      finishDue: document.getElementById('finishDue').value,
+      installDate: document.getElementById('installDate').value,
+      notes: document.getElementById('notes').value.trim(),
+      shop: document.getElementById('shop').value.trim(),
+      issues: document.getElementById('issues').value.trim(),
+      customerStatus: document.getElementById('customerStatus').value.trim(),
+      customerNextStep: document.getElementById('customerNextStep').value.trim(),
+      customerUpdate: document.getElementById('customerUpdate').value.trim(),
+      estimateLink: document.getElementById('estimateLink').value.trim(),
+      drawingsLink: document.getElementById('drawingsLink').value.trim(),
+      contractLink: document.getElementById('contractLink').value.trim(),
+      appliancesLink: document.getElementById('appliancesLink').value.trim(),
+      photoLinks: document.getElementById('photoLinks').value.trim(),
+      careInstructionsLink: document.getElementById('careInstructionsLink').value.trim(),
+      warrantyLink: document.getElementById('warrantyLink').value.trim(),
+      customerRequestTitle: document.getElementById('customerRequestTitle').value.trim(),
+      customerRequestDetails: document.getElementById('customerRequestDetails').value.trim(),
+      customerRequestStatus: document.getElementById('customerRequestStatus').value.trim(),
+      customerRequestLink: document.getElementById('customerRequestLink').value.trim(),
+      isArchived: ''
+    };
+  }
+
+  function clearForm() {
+    [
+      'jobName','clientName','projectTitle','projectSlug','priorityReason','clientAppointment',
+      'finishStartDate','finishDue','installDate','notes','shop','issues',
+      'customerStatus','customerNextStep','customerUpdate','estimateLink',
+      'drawingsLink','contractLink','appliancesLink','photoLinks',
+      'careInstructionsLink','warrantyLink','customerRequestTitle',
+      'customerRequestDetails','customerRequestStatus','customerRequestLink'
+    ].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    document.getElementById('status').value = 'Measure';
+    document.getElementById('manualPriority').value = 'None';
+  }
+
+  function addJob() {
+    const job = gatherFormJob();
+    if (!job.jobName) return;
+    jobs.push(job);
+    clearForm();
+    render();
+    queueAutosave();
+  }
+
+  function updateJob(id, key, value) {
+    const job = jobs.find(j => String(j.id) === String(id));
+    if (!job) return;
+    job[key] = value;
+    if (key === 'projectTitle' && !job.projectSlug) {
+      job.projectSlug = slugify(value);
+    }
+    render();
+    queueAutosave();
+  }
+
+  function removeJob(id) {
+    jobs = jobs.filter(j => String(j.id) !== String(id));
+    render();
+    queueAutosave();
+  }
+
+  function buildPriorityBadge(job) {
+    const p = getEffectivePriority(job);
+    return `<div class="priority-badge ${priorityClass(p)}">${escapeHtml(p)}</div>`;
+  }
+
+  function buildInternalCard(job, includeInstall = true) {
+    return `
+      ${buildPriorityBadge(job)}
+      <div class="title">${escapeHtml(job.jobName)}</div>
+      <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+      ${job.clientAppointment ? `<div class="section">Client appointment: ${escapeHtml(formatDate(job.clientAppointment))}</div>` : ''}
+      ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDate(job.finishStartDate))}</div>` : ''}
+      ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDate(job.finishDue))}</div>` : ''}
+      ${includeInstall && job.installDate ? `<div class="section">Install: ${escapeHtml(formatDate(job.installDate))}</div>` : ''}
+      ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
+      ${job.shop ? `<div class="section">Shop: ${escapeHtml(job.shop)}</div>` : ''}
+      ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
+    `;
+  }
+
+  function renderOffice() {
+    const el = document.getElementById('officeJobs');
+    el.innerHTML = '';
+
+    const sorted = getSortedJobs();
+    if (!sorted.length) {
+      el.innerHTML = '<div class="job">No jobs yet.</div>';
+      return;
+    }
+
+    sorted.forEach(job => {
+      el.innerHTML += `
+        <div class="job">
+          ${buildPriorityBadge(job)}
+
+          <div class="grid">
+            <div>
+              <label>Job Name</label>
+              <input value="${escapeHtml(job.jobName || '')}" onchange="updateJob('${job.id}','jobName',this.value)">
+            </div>
+
+            <div>
+              <label>Client Name</label>
+              <input value="${escapeHtml(job.clientName || '')}" onchange="updateJob('${job.id}','clientName',this.value)">
+            </div>
+
+            <div>
+              <label>Project Title</label>
+              <input value="${escapeHtml(job.projectTitle || '')}" onchange="updateJob('${job.id}','projectTitle',this.value)">
+            </div>
+
+            <div>
+              <label>Project Slug</label>
+              <input value="${escapeHtml(job.projectSlug || '')}" onchange="updateJob('${job.id}','projectSlug',this.value)">
+            </div>
+
+            <div>
+              <label>Status</label>
+              <select onchange="updateJob('${job.id}','status',this.value)">
+                ${STATUS_OPTIONS.map(s => `<option ${job.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+              </select>
+            </div>
+
+            <div>
+              <label>Manual Priority</label>
+              <select onchange="updateJob('${job.id}','manualPriority',this.value)">
+                ${MANUAL_PRIORITY_OPTIONS.map(s => `<option ${job.manualPriority === s ? 'selected' : ''}>${s}</option>`).join('')}
+              </select>
+            </div>
+
+            <div>
+              <label>Priority Reason</label>
+              <textarea onchange="updateJob('${job.id}','priorityReason',this.value)">${escapeHtml(job.priorityReason || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Client Appointment Date & Time</label>
+              <input type="datetime-local" value="${toDateTimeLocal(job.clientAppointment)}" onchange="updateJob('${job.id}','clientAppointment',this.value)">
+            </div>
+
+            <div>
+              <label>Gets to Finish On</label>
+              <input type="date" value="${toInputDate(job.finishStartDate)}" onchange="updateJob('${job.id}','finishStartDate',this.value)">
+            </div>
+
+            <div>
+              <label>Finish Due</label>
+              <input type="date" value="${toInputDate(job.finishDue)}" onchange="updateJob('${job.id}','finishDue',this.value)">
+            </div>
+
+            <div>
+              <label>Install Date</label>
+              <input type="date" value="${toInputDate(job.installDate)}" onchange="updateJob('${job.id}','installDate',this.value)">
+            </div>
+          </div>
+
+          <div class="grid" style="margin-top: 8px;">
+            <div>
+              <label>Notes</label>
+              <textarea onchange="updateJob('${job.id}','notes',this.value)">${escapeHtml(job.notes || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Shop Tasks</label>
+              <textarea onchange="updateJob('${job.id}','shop',this.value)">${escapeHtml(job.shop || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Issues</label>
+              <textarea onchange="updateJob('${job.id}','issues',this.value)">${escapeHtml(job.issues || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Customer Status</label>
+              <textarea onchange="updateJob('${job.id}','customerStatus',this.value)">${escapeHtml(job.customerStatus || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Customer Next Step</label>
+              <textarea onchange="updateJob('${job.id}','customerNextStep',this.value)">${escapeHtml(job.customerNextStep || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Customer Update</label>
+              <textarea onchange="updateJob('${job.id}','customerUpdate',this.value)">${escapeHtml(job.customerUpdate || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Estimate Link</label>
+              <input value="${escapeHtml(job.estimateLink || '')}" onchange="updateJob('${job.id}','estimateLink',this.value)">
+            </div>
+
+            <div>
+              <label>Drawings Link</label>
+              <input value="${escapeHtml(job.drawingsLink || '')}" onchange="updateJob('${job.id}','drawingsLink',this.value)">
+            </div>
+
+            <div>
+              <label>Contract Link</label>
+              <input value="${escapeHtml(job.contractLink || '')}" onchange="updateJob('${job.id}','contractLink',this.value)">
+            </div>
+
+            <div>
+              <label>Appliances Link</label>
+              <input value="${escapeHtml(job.appliancesLink || '')}" onchange="updateJob('${job.id}','appliancesLink',this.value)">
+            </div>
+
+            <div>
+              <label>Photo Links (one per line)</label>
+              <textarea onchange="updateJob('${job.id}','photoLinks',this.value)">${escapeHtml(job.photoLinks || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Care Instructions Link</label>
+              <input value="${escapeHtml(job.careInstructionsLink || '')}" onchange="updateJob('${job.id}','careInstructionsLink',this.value)">
+            </div>
+
+            <div>
+              <label>Warranty Link</label>
+              <input value="${escapeHtml(job.warrantyLink || '')}" onchange="updateJob('${job.id}','warrantyLink',this.value)">
+            </div>
+
+            <div>
+              <label>Customer Request Title</label>
+              <input value="${escapeHtml(job.customerRequestTitle || '')}" onchange="updateJob('${job.id}','customerRequestTitle',this.value)">
+            </div>
+
+            <div>
+              <label>Customer Request Details</label>
+              <textarea onchange="updateJob('${job.id}','customerRequestDetails',this.value)">${escapeHtml(job.customerRequestDetails || '')}</textarea>
+            </div>
+
+            <div>
+              <label>Customer Request Status</label>
+              <input value="${escapeHtml(job.customerRequestStatus || '')}" onchange="updateJob('${job.id}','customerRequestStatus',this.value)">
+            </div>
+
+            <div>
+              <label>Customer Request Link</label>
+              <input value="${escapeHtml(job.customerRequestLink || '')}" onchange="updateJob('${job.id}','customerRequestLink',this.value)">
+            </div>
+          </div>
+
+          <div class="customer-link section">
+            Project link:
+            <a href="?view=project&job=${encodeURIComponent(job.projectSlug || '')}" target="_blank">Open project page</a>
+          </div>
+
+          <div style="margin-top: 10px;">
+            <button class="delete" onclick="removeJob('${job.id}')">Delete</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function renderPriorityNow(sorted) {
+    const el = document.getElementById('priorityNow');
+
+    const priorityJobs = sorted.filter(job => {
+      const priority = getEffectivePriority(job);
+      const status = String(job.status || '').trim();
+      if (priority === 'Normal') return false;
+      if (status === 'Measure') return false;
+      if (status === 'Design') return false;
+      if (status === 'Installed') return false;
+      return true;
+    }).slice(0, 4);
+
+    if (!priorityJobs.length) {
+      el.innerHTML = '<div class="job">No urgent production items right now.</div>';
+      return;
+    }
+
+    el.innerHTML = priorityJobs.map(job => {
+      const priority = getEffectivePriority(job);
+      const reason =
+        String(job.priorityReason || '').trim() ||
+        String(job.issues || '').trim() ||
+        autoPriorityReason(job);
+
+      return `
+        <div class="priority-card priority-mini">
+          <div class="priority-badge ${priorityClass(priority)}">${escapeHtml(priority)}</div>
+          <div class="title">${escapeHtml(job.jobName)}</div>
+          ${reason ? `<div class="section issue">${escapeHtml(reason)}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
+    const el = document.getElementById(targetId);
+    const footer = document.getElementById(footerId);
+    el.innerHTML = '';
+    footer.textContent = '';
+
+    if (!jobsForColumn.length) {
+      el.innerHTML = `<div class="job">${emptyText}</div>`;
+      return;
+    }
+
+    const visible = jobsForColumn.slice(0, maxItems);
+    const hiddenCount = Math.max(0, jobsForColumn.length - visible.length);
+
+    el.innerHTML = visible.map(job => `<div class="job">${buildInternalCard(job, true)}</div>`).join('');
+
+    if (hiddenCount > 0) {
+      footer.textContent = `${hiddenCount} more not shown`;
+    }
+  }
+
+  function renderTv() {
+    const sorted = getSortedJobs();
+    const issuesEl = document.getElementById('tvIssues');
+
+    renderPriorityNow(sorted);
+
+    const officeJobs = sorted.filter(job => job.status === 'Measure' || job.status === 'Design');
+    const shopJobs = sorted.filter(job => job.status === 'In Shop' || job.status === 'Ready to Install');
+    const finishJobs = sorted.filter(job => job.status === 'Ready for Finish' || job.status === 'In Finish');
+
+    renderTvColumn('tvOffice', officeJobs, 'No office jobs.', 4, 'tvOfficeFooter');
+    renderTvColumn('tvShop', shopJobs, 'No shop jobs.', 4, 'tvShopFooter');
+    renderTvColumn('tvFinish', finishJobs, 'No finish jobs.', 4, 'tvFinishFooter');
+
+    issuesEl.innerHTML = '';
+    const issueJobs = sorted.filter(job => String(job.issues || '').trim()).slice(0, 4);
+
+    if (!issueJobs.length) {
+      issuesEl.innerHTML = '<div class="job">No issues right now.</div>';
+    } else {
+      issuesEl.innerHTML = issueJobs.map(job => `
+        <div class="job">
+          <div class="title">${escapeHtml(job.jobName)}</div>
+          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+          <div class="section issue">${escapeHtml(job.issues)}</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  function renderFinish() {
+    const fin = document.getElementById('finishJobs');
+    fin.innerHTML = '';
+
+    const sorted = getSortedJobs();
+    const finishJobs = sorted.filter(job =>
+      job.status === 'Ready for Finish' ||
+      job.status === 'In Finish'
+    );
+
+    if (!finishJobs.length) {
+      fin.innerHTML = '<div class="job">No finish work queued.</div>';
+      return;
+    }
+
+    fin.innerHTML = finishJobs.map(job => `
+      <div class="job">
+        ${buildPriorityBadge(job)}
+        <div class="title">${escapeHtml(job.jobName)}</div>
+        <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+        ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDate(job.finishStartDate))}</div>` : ''}
+        ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDate(job.finishDue))}</div>` : ''}
+        ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
+        ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderProject(job) {
+    const el = document.getElementById('projectContent');
+
+    if (!job) {
+      el.innerHTML = '<div class="project-card"><h2>Project not found.</h2></div>';
+      return;
+    }
+
+    const photos = photoList(job.photoLinks);
+
+    el.innerHTML = `
+      <div class="project-card">
+        <h1>${escapeHtml(job.projectTitle || job.jobName || job.clientName || 'Project')}</h1>
+        ${job.customerStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerStatus)}</div>` : ''}
+        ${job.customerNextStep ? `<div class="section"><strong>Next Step:</strong> ${escapeHtml(job.customerNextStep)}</div>` : ''}
+        ${job.customerUpdate ? `<div class="section"><strong>Latest Update:</strong> ${escapeHtml(job.customerUpdate)}</div>` : ''}
+      </div>
+
+      <div class="project-card">
+        <h2>Project Documents</h2>
+        <div class="doc-links">
+          ${job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : ''}
+          ${job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : ''}
+          ${job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : ''}
+          ${job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''}
+          ${!job.estimateLink && !job.drawingsLink && !job.contractLink && !job.appliancesLink ? '<div class="section">No project documents yet.</div>' : ''}
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h2>Care & Warranty</h2>
+        <div class="doc-links">
+          ${job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : ''}
+          ${job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''}
+          ${!job.careInstructionsLink && !job.warrantyLink ? '<div class="section">No care or warranty documents added yet.</div>' : ''}
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h2>Progress Photos</h2>
+        ${
+          photos.length
+            ? `<div class="photo-grid">${photos.map(raw => {
+                const normalized = normalizePhotoLink(raw);
+
+                if (isIcloudPhotoLink(raw)) {
+                  return `
+                    <div class="project-card" style="margin:0; padding:12px;">
+                      <div class="section">iCloud photo link</div>
+                      <a class="doc-link" href="${escapeHtml(raw)}" target="_blank">Open Photo</a>
+                    </div>
+                  `;
+                }
+
+                return `<a href="${escapeHtml(raw)}" target="_blank"><img src="${escapeHtml(normalized)}" alt="Project photo"></a>`;
+              }).join('')}</div>`
+            : '<div class="section">No photos added yet.</div>'
+        }
+      </div>
+
+      <div class="project-card">
+        <h2>Action Needed</h2>
+        ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
+        ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
+        ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
+        ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
+        ${!job.customerRequestTitle && !job.customerRequestDetails && !job.customerRequestStatus && !job.customerRequestLink ? '<div class="section">No action needed right now.</div>' : ''}
+      </div>
+    `;
+  }
+
+  function render() {
+    renderOffice();
+    renderTv();
+    renderFinish();
+  }
+
+  async function loadJobs() {
+    try {
+      setStatus('Loading...');
+      const res = await fetch(SCRIPT_URL);
+      const data = await res.json();
+      jobs = Array.isArray(data.jobs) ? data.jobs : [];
+      render();
+      setStatus('Loaded');
+    } catch (e) {
+      console.error(e);
+      setStatus('Load failed');
+    }
+  }
+
+  async function loadProject(slug) {
+    try {
+      const res = await fetch(`${SCRIPT_URL}?view=project&job=${encodeURIComponent(slug || '')}`);
+      const data = await res.json();
+
+      if (data && data.project) {
+        renderProject(data.project);
+        return;
+      }
+
+      const fallback = await fetch(SCRIPT_URL);
+      const fallbackData = await fallback.json();
+      const allJobs = Array.isArray(fallbackData.jobs) ? fallbackData.jobs : [];
+      const match = allJobs.find(j => String(j.projectSlug || '') === String(slug || ''));
+      renderProject(match || null);
+    } catch (e) {
+      console.error(e);
+      renderProject(null);
+    }
+  }
+
+  async function saveJobs() {
+    try {
+      autoArchiveJobs();
+      setStatus('Saving...');
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'saveAll', jobs })
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error('Save failed');
+      setStatus('Saved');
+    } catch (e) {
+      console.error(e);
+      setStatus('Save failed');
+    }
+  }
+
+  applyMode();
+
+  setInterval(() => {
+    if (currentView !== 'office') {
+      if (queryView === 'project') loadProject(queryJob);
+      else loadJobs();
+    }
+  }, 30000);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && currentView !== 'office') {
+      if (queryView === 'project') loadProject(queryJob);
+      else loadJobs();
+    }
+  });
+
+  window.addEventListener('focus', () => {
+    if (currentView !== 'office') {
+      if (queryView === 'project') loadProject(queryJob);
+      else loadJobs();
+    }
+  });
+</script>
+</body>
+</html>
     .wrap {
       max-width: 1500px;
       margin: 0 auto;
