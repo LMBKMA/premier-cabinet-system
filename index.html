@@ -8,18 +8,25 @@
   <style>
     :root {
       --bg: #111111;
-      --panel: #222222;
-      --panel-2: #2b2b2b;
-      --text: #ffffff;
-      --muted: #cfcfcf;
-      --blue: #2563eb;
-      --green: #16a34a;
-      --red: #dc2626;
-      --amber: #d97706;
-      --orange: #ea580c;
-      --cyan: #38bdf8;
-      --pink: #fda4af;
+      --bg-glow: rgba(255, 255, 255, 0.03);
+      --panel: #1a1a1a;
+      --panel-2: #212121;
+      --panel-3: #272727;
+      --text: #f6f3ee;
+      --muted: #c7c0b7;
+      --muted-2: #978f86;
+      --blue: #7f96a7;
+      --green: #5f7a67;
+      --red: #b06360;
+      --amber: #a97f39;
+      --orange: #ba6f44;
+      --cyan: #8ea3b0;
+      --pink: #c5969a;
       --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.14);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+      --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.22);
+      --radius: 18px;
     }
 
     * {
@@ -29,14 +36,18 @@
     body {
       margin: 0;
       padding: 20px;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, var(--bg-glow), transparent 30%),
+        linear-gradient(180deg, #0f0f0f 0%, var(--bg) 100%);
       color: var(--text);
+      letter-spacing: 0.01em;
     }
 
     body.tv-mode {
       overflow: hidden;
       padding: 12px;
+      background: #0f0f0f;
     }
 
     .wrap {
@@ -52,13 +63,14 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .brand img {
       height: 120px;
       max-width: 420px;
       object-fit: contain;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.3));
     }
 
     body.tv-mode .brand {
@@ -75,7 +87,13 @@
       gap: 10px;
       flex-wrap: wrap;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
+      padding: 12px;
+      background: rgba(18, 25, 34, 0.82);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
     }
 
     body.tv-mode .toolbar {
@@ -84,39 +102,59 @@
 
     button {
       padding: 10px 14px;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-weight: 700;
       cursor: pointer;
+      background: var(--panel-3);
+      color: var(--text);
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      box-shadow: none;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     .tab {
-      background: #444;
-      color: white;
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border);
+      color: var(--text);
     }
 
     .tab.active {
       background: var(--blue);
+      border-color: var(--blue);
+      box-shadow: none;
+      color: white;
     }
 
     .save {
       background: var(--blue);
       color: white;
+      border-color: var(--blue);
     }
 
     .reload {
-      background: #555;
+      background: #2d3540;
       color: white;
+      border-color: #2d3540;
     }
 
     .add {
       background: var(--green);
       color: white;
+      border-color: var(--green);
     }
 
     .delete {
       background: var(--red);
       color: white;
+      border-color: var(--red);
     }
 
     .card,
@@ -124,13 +162,16 @@
     .priority-card,
     .project-card {
       background: var(--panel);
-      border-radius: 10px;
-      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
       margin-bottom: 16px;
+      box-shadow: var(--shadow-soft);
     }
 
     .priority-card {
-      border: 2px solid var(--amber);
+      border: 1px solid rgba(183, 139, 65, 0.38);
+      background: var(--panel-2);
     }
 
     .grid {
@@ -157,13 +198,22 @@
     textarea,
     select {
       width: 100%;
-      padding: 10px;
+      padding: 12px 13px;
       margin-top: 6px;
-      border: none;
-      border-radius: 6px;
-      background: #333;
-      color: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #202020;
+      color: var(--text);
       box-sizing: border-box;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: rgba(140, 160, 178, 0.65);
+      box-shadow: 0 0 0 3px rgba(140, 160, 178, 0.14);
     }
 
     textarea {
@@ -176,6 +226,7 @@
     h3 {
       margin-top: 0;
       margin-bottom: 12px;
+      letter-spacing: -0.02em;
     }
 
     body.tv-mode h2,
@@ -185,27 +236,34 @@
 
     label {
       display: block;
-      font-size: 13px;
-      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-2);
       margin-top: 4px;
     }
 
     .title {
       font-size: 20px;
-      font-weight: bold;
+      font-weight: 800;
       margin-bottom: 8px;
+      line-height: 1.15;
     }
 
     .stage {
       color: var(--cyan);
-      font-weight: bold;
+      font-weight: 700;
       margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 12px;
     }
 
     .section {
       margin-top: 8px;
       color: var(--muted);
-      line-height: 1.4;
+      line-height: 1.5;
       font-size: 14px;
     }
 
@@ -218,10 +276,12 @@
       display: inline-block;
       padding: 6px 10px;
       border-radius: 999px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 10px;
       color: white;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     .priority-normal {
@@ -246,18 +306,26 @@
 
     .view.active {
       display: block;
+      animation: fadeIn 0.18s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     #statusMsg {
-      color: #9ad;
-      font-size: 14px;
+      color: #bfdbfe;
+      font-size: 13px;
       min-width: 100px;
+      margin-left: auto;
+      padding: 0 6px;
     }
 
     .link-list a,
     .project-card a,
     .customer-link a {
-      color: #93c5fd;
+      color: #d8d2ca;
       text-decoration: none;
       display: inline-block;
       margin-top: 6px;
@@ -272,16 +340,18 @@
 
     .doc-link {
       display: block;
-      background: #2f2f2f;
+      background: var(--panel-2);
       color: white !important;
       text-decoration: none;
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-weight: bold;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: 1px solid var(--border);
     }
 
     .doc-link:hover {
-      background: #3a3a3a;
+      background: #2a2a2a;
+      border-color: var(--border-strong);
     }
 
     .photo-grid img {
@@ -293,11 +363,13 @@
     }
 
     .login-box {
-      max-width: 420px;
+      max-width: 430px;
       margin: 80px auto 0;
       background: var(--panel);
-      border-radius: 12px;
-      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: var(--shadow);
     }
 
     .small {
@@ -330,23 +402,24 @@
     body.tv-mode .job,
     body.tv-mode .card,
     body.tv-mode .priority-card {
-      padding: 10px;
+      padding: 12px;
       margin-bottom: 8px;
     }
 
     body.tv-mode .title {
-      font-size: 15px;
+      font-size: 17px;
       margin-bottom: 4px;
+      font-weight: 700;
     }
 
     body.tv-mode .stage {
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 4px;
     }
 
     body.tv-mode .section {
-      font-size: 12px;
-      line-height: 1.25;
+      font-size: 13px;
+      line-height: 1.3;
       margin-top: 4px;
     }
 
@@ -369,7 +442,7 @@
 
     .office-job-header {
       width: 100%;
-      background: transparent;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
       color: white;
       border: none;
       border-radius: 0;
@@ -377,14 +450,15 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 16px;
+      padding: 18px;
       text-align: left;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 800;
+      box-shadow: none;
     }
 
     .office-job-header:hover {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .office-job-title {
@@ -402,8 +476,9 @@
     }
 
     .office-job-body {
-      padding: 0 16px 16px;
+      padding: 4px 18px 18px;
       border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
     }
 
     .office-job.collapsed .office-job-body {
@@ -428,6 +503,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
+      align-content: start;
     }
 
     .admin-toolbar {
@@ -466,14 +542,47 @@
 
     .summary-card {
       background: var(--panel);
-      border-radius: 10px;
-      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
     }
 
     .summary-number {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 28px;
+      font-weight: 800;
       margin-bottom: 4px;
+    }
+
+    .photo-dropzone {
+      margin-top: 10px;
+      border: 2px dashed rgba(148, 163, 184, 0.34);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .photo-dropzone.dragover {
+      border-color: var(--blue);
+      color: var(--text);
+      background: rgba(37, 99, 235, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(59,130,246,0.22);
+    }
+
+    .photo-upload-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .upload-status {
+      color: #9ad;
+      font-size: 13px;
+      min-height: 18px;
     }
 
     body.tv-mode {
@@ -543,17 +652,6 @@
     }
 
     @media (max-width: 900px) {
-      .tv-grid,
-      .photo-grid {
-        grid-template-columns: 1fr;
-      }
-
-      body.tv-mode {
-        overflow: auto;
-      }
-    }
-
-    @media (max-width: 900px) {
       .grid {
         grid-template-columns: 1fr;
       }
@@ -563,6 +661,279 @@
         max-width: 320px;
       }
     }
+  
+    .card > h2,
+    .card > h3,
+    .project-card > h2 {
+      margin-bottom: 14px;
+    }
+
+    .grid {
+      gap: 14px;
+    }
+
+    .office-job {
+      border-radius: 18px;
+    }
+
+    .small {
+      color: var(--muted-2);
+    }
+
+    .customer-link {
+      padding-top: 8px;
+    }
+
+    .project-card h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 16px;
+    }
+
+    .project-card {
+      padding: 22px;
+    }
+
+    .photo-grid img {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .admin-toolbar > div,
+    .tv-top-row > .card,
+    .tv-grid > .card {
+      min-width: 0;
+    }
+
+  
+    body.project-mode {
+      padding: 12px;
+    }
+
+    body.project-mode .wrap {
+      max-width: 900px;
+    }
+
+    body.project-mode #brandBar {
+      margin-bottom: 12px;
+      justify-content: center;
+    }
+
+    body.project-mode .brand img {
+      height: 68px;
+      max-width: 220px;
+    }
+
+    .project-hero {
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--border-strong);
+    }
+
+    .project-eyebrow {
+      display: none;
+    }
+
+    .project-hero h1 {
+      font-size: clamp(28px, 7vw, 42px);
+      line-height: 1.08;
+      margin-bottom: 12px;
+    }
+
+    .project-lead {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .project-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .project-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #202020;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .project-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .project-section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .project-section-title h2 {
+      margin-bottom: 0;
+    }
+
+    .project-muted {
+      color: var(--muted-2);
+      font-size: 13px;
+    }
+
+    .project-callout {
+      border-left: 3px solid rgba(255,255,255,0.16);
+      padding-left: 12px;
+    }
+
+    body.project-mode .project-card {
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    body.project-mode .doc-links {
+      grid-template-columns: 1fr;
+    }
+
+    body.project-mode .doc-link {
+      padding: 16px 18px;
+      font-size: 15px;
+    }
+
+    body.project-mode .photo-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    body.project-mode .photo-grid a {
+      display: block;
+    }
+
+    body.project-mode .photo-grid img {
+      height: 170px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 700px) {
+      body.project-mode {
+        padding: 10px;
+      }
+
+      body.project-mode .wrap {
+        max-width: none;
+      }
+
+      body.project-mode .brand img {
+        height: 56px;
+        max-width: 190px;
+      }
+
+      body.project-mode .project-card,
+      body.project-mode .project-hero {
+        padding: 16px;
+        border-radius: 16px;
+      }
+
+      body.project-mode .project-chip-row {
+        gap: 6px;
+      }
+
+      body.project-mode .project-chip {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 14px;
+      }
+
+      body.project-mode .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      body.project-mode .photo-grid img {
+        height: auto;
+        aspect-ratio: 4 / 3;
+      }
+    }
+
+
+    body.project-mode {
+      background: #111111;
+    }
+
+    body.project-mode .brand {
+      margin-bottom: 14px;
+    }
+
+    body.project-mode .project-hero {
+      background: #171717;
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    body.project-mode .project-card {
+      background: #171717;
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    body.project-mode .project-lead {
+      color: var(--text);
+      opacity: 0.88;
+      font-size: 16px;
+    }
+
+    body.project-mode .project-chip {
+      background: #202020;
+      border-color: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    body.project-mode .project-section-title h2 {
+      font-size: 20px;
+      letter-spacing: 0.01em;
+    }
+
+    body.project-mode .project-muted {
+      color: var(--muted);
+    }
+
+    body.project-mode .doc-link {
+      background: #232323;
+      border-color: rgba(255,255,255,0.08);
+      color: var(--text) !important;
+      box-shadow: none;
+    }
+
+    body.project-mode .doc-link:hover {
+      background: #2a2a2a;
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    body.project-mode .project-callout {
+      border-left-color: rgba(255,255,255,0.12);
+      padding-left: 14px;
+    }
+
+    body.tv-mode .priority-badge {
+      font-size: 12px;
+    }
+
+    body.tv-mode .title {
+      font-size: 16px;
+    }
+
+    body.tv-mode .stage,
+    body.tv-mode .section {
+      color: #e5dfd8;
+    }
+
   </style>
 </head>
 <body>
@@ -761,6 +1132,8 @@
           <div style="margin-top: 12px;">
             <button class="add" onclick="addJob()">Add Job</button>
           </div>
+
+          <div class="section">After creating a job, open it below to upload photos directly from desktop or iPhone.</div>
         </div>
 
         <div id="officeJobs"></div>
@@ -812,7 +1185,7 @@
           <div class="admin-toolbar">
             <div>
               <label>Search</label>
-              <input id="adminSearch" placeholder="Job or client name" oninput="renderAdmin()">
+              <input id="adminSearch" placeholder="Job, client, notes, issues" oninput="renderAdmin()">
             </div>
 
             <div>
@@ -826,16 +1199,16 @@
               <label>Priority</label>
               <select id="adminPriorityFilter" onchange="renderAdmin()">
                 <option value="">All priorities</option>
-                <option>Important</option>
-                <option>Urgent</option>
-                <option>Stop Everything</option>
-                <option>Normal</option>
+                <option value="Normal">Normal</option>
+                <option value="Important">Important</option>
+                <option value="Urgent">Urgent</option>
+                <option value="Stop Everything">Stop Everything</option>
               </select>
             </div>
 
             <div class="admin-toggle">
               <label><input id="adminIssuesOnly" type="checkbox" onchange="renderAdmin()"> Issues only</label>
-              <label><input id="adminUpcomingOnly" type="checkbox" onchange="renderAdmin()"> Upcoming only</label>
+              <label><input id="adminUpcomingOnly" type="checkbox" onchange="renderAdmin()"> Upcoming in 7 days</label>
             </div>
           </div>
         </div>
@@ -1236,6 +1609,7 @@
       }
 
       if (queryView === 'project') {
+        document.body.classList.add('project-mode');
         loginBox.classList.add('hidden');
         appShell.classList.remove('hidden');
         toolbar.classList.add('hidden');
@@ -1574,6 +1948,23 @@
               <a href="?view=project&job=${encodeURIComponent(job.projectSlug || '')}" target="_blank">Open project page</a>
             </div>
 
+            <div class="photo-upload-row">
+              <label class="save" style="display:inline-block; cursor:pointer;">
+                Upload Photos
+                <input type="file" accept="image/*" multiple style="display:none" onchange="uploadJobPhotos('${job.id}', this.files); this.value='';">
+              </label>
+              <div id="uploadStatus-${job.id}" class="upload-status"></div>
+            </div>
+
+            <div
+              class="photo-dropzone"
+              ondragover="handlePhotoDragOver(event)"
+              ondragleave="handlePhotoDragLeave(event)"
+              ondrop="handlePhotoDrop(event, '${job.id}')"
+            >
+              Drag photos here on desktop or tap Upload Photos on iPhone
+            </div>
+
             <div style="margin-top: 10px;">
               <button class="delete" onclick="removeJob('${job.id}')">Delete</button>
             </div>
@@ -1657,6 +2048,100 @@
       `).join('');
     }
 
+    function setUploadStatus(jobId, message) {
+      const el = $('uploadStatus-' + jobId);
+      if (el) el.textContent = message || '';
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = String(reader.result || '');
+          resolve(result.split(',')[1] || '');
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function handlePhotoDragOver(event) {
+      event.preventDefault();
+      const zone = event.currentTarget;
+      if (zone) zone.classList.add('dragover');
+    }
+
+    function handlePhotoDragLeave(event) {
+      const zone = event.currentTarget;
+      if (zone) zone.classList.remove('dragover');
+    }
+
+    async function handlePhotoDrop(event, jobId) {
+      event.preventDefault();
+      const zone = event.currentTarget;
+      if (zone) zone.classList.remove('dragover');
+
+      const files = Array.from(event.dataTransfer?.files || []).filter(file => String(file.type || '').startsWith('image/'));
+      if (!files.length) return;
+
+      await uploadJobPhotos(jobId, files);
+    }
+
+    async function uploadJobPhotos(jobId, filesLike) {
+      const files = Array.from(filesLike || []).filter(file => String(file.type || '').startsWith('image/'));
+      if (!files.length) {
+        setUploadStatus(jobId, 'No image files selected.');
+        return;
+      }
+
+      const job = jobs.find(item => String(item.id) === String(jobId));
+      if (!job) {
+        setUploadStatus(jobId, 'Job not found.');
+        return;
+      }
+
+      setUploadStatus(jobId, `Uploading ${files.length} photo${files.length === 1 ? '' : 's'}...`);
+
+      const uploadedUrls = [];
+
+      try {
+        for (const file of files) {
+          const base64Data = await fileToBase64(file);
+
+          const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'uploadPhoto',
+              jobId,
+              jobName: job.jobName || '',
+              fileName: file.name,
+              mimeType: file.type,
+              data: base64Data
+            })
+          });
+
+          const result = await response.json();
+
+          if (!result.ok || !result.url) {
+            throw new Error(result.error || 'Upload failed');
+          }
+
+          uploadedUrls.push(result.url);
+        }
+
+        const existing = photoList(job.photoLinks || '');
+        job.photoLinks = [...existing, ...uploadedUrls].join('\n');
+
+        render();
+        queueAutosave();
+        setUploadStatus(jobId, `Uploaded ${uploadedUrls.length} photo${uploadedUrls.length === 1 ? '' : 's'}.`);
+      } catch (error) {
+        console.error(error);
+        setUploadStatus(jobId, 'Photo upload failed.');
+      }
+    }
+
     function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
       const container = $(targetId);
       const footer = $(footerId);
@@ -1732,21 +2217,20 @@
         return;
       }
 
-      const activeJobs = getSortedJobs();
       const currentStatus = statusFilter.value;
       const currentPriority = priorityFilter.value;
       const currentSearch = String(searchInput.value || '').trim().toLowerCase();
 
-      const filtered = activeJobs.filter(job => {
+      const filtered = getSortedJobs().filter(job => {
         if (currentStatus && String(job.status || '') !== currentStatus) return false;
         if (currentPriority && String(getEffectivePriority(job)) !== currentPriority) return false;
         if (issuesOnly.checked && !String(job.issues || '').trim()) return false;
 
         if (upcomingOnly.checked) {
-          const appointmentDays = daysUntil(job.clientAppointment);
-          const finishDueDays = daysUntil(job.finishDue);
-          const installDays = daysUntil(job.installDate);
-          const soon = [appointmentDays, finishDueDays, installDays].some(value => value !== null && value >= 0 && value <= 7);
+          const soon = [job.clientAppointment, job.finishDue, job.installDate]
+            .map(daysUntil)
+            .some(value => value !== null && value >= 0 && value <= 7);
+
           if (!soon) return false;
         }
 
@@ -1820,64 +2304,111 @@
       }
 
       const photos = photoList(job.photoLinks);
+      const heroTitle = escapeHtml(job.projectTitle || job.jobName || job.clientName || 'Project');
+      const clientName = escapeHtml(job.clientName || '');
+      const statusText = escapeHtml(job.customerStatus || 'We will keep this page updated as work moves forward.');
+      const nextStepText = escapeHtml(job.customerNextStep || 'Nothing needed from you right now.');
+      const latestUpdateText = escapeHtml(job.customerUpdate || '');
+      const stageText = escapeHtml(job.status || '');
+      const installText = job.installDate ? escapeHtml(formatDate(job.installDate)) : '';
+      const requestOpen = Boolean(job.customerRequestTitle || job.customerRequestDetails || job.customerRequestStatus || job.customerRequestLink);
 
       el.innerHTML = `
-        <div class="project-card">
-          <h1>${escapeHtml(job.projectTitle || job.jobName || job.clientName || 'Project')}</h1>
-          ${job.customerStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerStatus)}</div>` : ''}
-          ${job.customerNextStep ? `<div class="section"><strong>Next Step:</strong> ${escapeHtml(job.customerNextStep)}</div>` : ''}
-          ${job.customerUpdate ? `<div class="section"><strong>Latest Update:</strong> ${escapeHtml(job.customerUpdate)}</div>` : ''}
-        </div>
-
-        <div class="project-card">
-          <h2>Project Documents</h2>
-          <div class="doc-links">
-            ${job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : ''}
-            ${job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : ''}
-            ${job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : ''}
-            ${job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''}
-            ${!job.estimateLink && !job.drawingsLink && !job.contractLink && !job.appliancesLink ? '<div class="section">No project documents yet.</div>' : ''}
+        <div class="project-card project-hero">
+          <h1>${heroTitle}</h1>
+          <div class="project-lead">${statusText}</div>
+          <div class="project-chip-row">
+            ${clientName ? `<div class="project-chip">Client: ${clientName}</div>` : ''}
+            ${stageText ? `<div class="project-chip">Stage: ${stageText}</div>` : ''}
+            ${installText ? `<div class="project-chip">Install: ${installText}</div>` : ''}
+            <div class="project-chip">${requestOpen ? 'Action Needed' : 'No Open Requests'}</div>
           </div>
         </div>
 
-        <div class="project-card">
-          <h2>Care & Warranty</h2>
-          <div class="doc-links">
-            ${job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : ''}
-            ${job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''}
-            ${!job.careInstructionsLink && !job.warrantyLink ? '<div class="section">No care or warranty documents added yet.</div>' : ''}
+        <div class="project-stack">
+          <div class="project-card">
+            <div class="project-section-title">
+              <h2>Project Updates</h2>
+              <div class="project-muted">Customer view</div>
+            </div>
+            <div class="project-callout">
+              <div class="section"><strong>Current Status</strong></div>
+              <div class="section">${statusText}</div>
+            </div>
+            <div class="project-callout" style="margin-top: 14px;">
+              <div class="section"><strong>Next Step</strong></div>
+              <div class="section">${nextStepText}</div>
+            </div>
+            ${latestUpdateText ? `
+              <div class="project-callout" style="margin-top: 14px;">
+                <div class="section"><strong>Latest Update</strong></div>
+                <div class="section">${latestUpdateText}</div>
+              </div>
+            ` : ''}
           </div>
-        </div>
 
-        <div class="project-card">
-          <h2>Progress Photos</h2>
-          ${
-            photos.length
-              ? `<div class="photo-grid">${photos.map(raw => {
-                  const normalized = normalizePhotoLink(raw);
+          <div class="project-card">
+            <div class="project-section-title">
+              <h2>Project Documents</h2>
+              <div class="project-muted">Tap any item to open</div>
+            </div>
+            <div class="doc-links">
+              ${job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : ''}
+              ${job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : ''}
+              ${job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : ''}
+              ${job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''}
+              ${!job.estimateLink && !job.drawingsLink && !job.contractLink && !job.appliancesLink ? '<div class="section">No project documents yet.</div>' : ''}
+            </div>
+          </div>
 
-                  if (isIcloudPhotoLink(raw)) {
-                    return `
-                      <div class="project-card" style="margin:0; padding:12px;">
-                        <div class="section">iCloud photo link</div>
-                        <a class="doc-link" href="${escapeHtml(raw)}" target="_blank">Open Photo</a>
-                      </div>
-                    `;
-                  }
+          <div class="project-card">
+            <div class="project-section-title">
+              <h2>Care & Warranty</h2>
+              <div class="project-muted">Helpful after install</div>
+            </div>
+            <div class="doc-links">
+              ${job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : ''}
+              ${job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''}
+              ${!job.careInstructionsLink && !job.warrantyLink ? '<div class="section">No care or warranty documents added yet.</div>' : ''}
+            </div>
+          </div>
 
-                  return `<a href="${escapeHtml(raw)}" target="_blank"><img src="${escapeHtml(normalized)}" alt="Project photo"></a>`;
-                }).join('')}</div>`
-              : '<div class="section">No photos added yet.</div>'
-          }
-        </div>
+          <div class="project-card">
+            <div class="project-section-title">
+              <h2>Progress Photos</h2>
+              <div class="project-muted">${photos.length ? `${photos.length} photo${photos.length === 1 ? '' : 's'}` : 'No photos yet'}</div>
+            </div>
+            ${
+              photos.length
+                ? `<div class="photo-grid">${photos.map(raw => {
+                    const normalized = normalizePhotoLink(raw);
 
-        <div class="project-card">
-          <h2>Action Needed</h2>
-          ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
-          ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
-          ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
-          ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
-          ${!job.customerRequestTitle && !job.customerRequestDetails && !job.customerRequestStatus && !job.customerRequestLink ? '<div class="section">No action needed right now.</div>' : ''}
+                    if (isIcloudPhotoLink(raw)) {
+                      return `
+                        <div class="project-card" style="margin:0; padding:14px;">
+                          <div class="section">iCloud photo link</div>
+                          <a class="doc-link" href="${escapeHtml(raw)}" target="_blank">Open Photo</a>
+                        </div>
+                      `;
+                    }
+
+                    return `<a href="${escapeHtml(raw)}" target="_blank"><img src="${escapeHtml(normalized)}" alt="Project photo"></a>`;
+                  }).join('')}</div>`
+                : '<div class="section">No photos added yet.</div>'
+            }
+          </div>
+
+          <div class="project-card">
+            <div class="project-section-title">
+              <h2>Action Needed</h2>
+              <div class="project-muted">${requestOpen ? 'From you' : 'Nothing pending'}</div>
+            </div>
+            ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
+            ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
+            ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
+            ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
+            ${!requestOpen ? '<div class="section">No action needed right now.</div>' : ''}
+          </div>
         </div>
       `;
     }
