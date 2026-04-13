@@ -1178,6 +1178,47 @@
       }
     }
 
+
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .milestone-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .milestone-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .milestone-value {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    @media (max-width: 700px) {
+      .milestone-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .milestone-card {
+        padding: 12px;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -1277,12 +1318,12 @@
 
             <div>
               <label>Finish Due</label>
-              <input id="finishDue" type="date">
+              <input id="finishDue" type="date"">
             </div>
 
             <div>
               <label>Install Date</label>
-              <input id="installDate" type="date">
+              <input id="installDate" type="date"">
             </div>
           </div>
 
@@ -2619,6 +2660,8 @@
         return;
       }
 
+      const hasAction = job.customerRequestTitle || job.customerRequestDetails || job.customerRequestStatus || job.customerRequestLink;
+
       const photos = photoList(job.photoLinks);
       const progress = getProgressPercent(job);
       const initialPhotos = photos.slice(0, 6);
@@ -2632,6 +2675,19 @@
               ${job.customerUpdate ? `<div class="section"><strong>Latest Update:</strong> ${escapeHtml(job.customerUpdate)}</div>` : ''}
             </div>
 
+            ${hasAction ? `
+              <div class="project-meta-card" style="border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06);">
+                <div class="project-meta-label">Action Needed</div>
+                ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
+                ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
+                ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
+                ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
+                <a class="doc-link" style="margin-top:10px; display:inline-block; font-weight:600;" href="mailto:info@premiercabinetandwood.com?subject=Project%20Update%20for%20${encodeURIComponent(job.projectTitle || job.jobName || '')}">
+                  Send Requested Information
+                </a>
+              </div>
+            ` : ''}
+
             <div class="project-meta-grid">
               <div class="project-meta-card">
                 <div class="project-meta-label">What’s happening now</div>
@@ -2644,16 +2700,30 @@
               </div>
             </div>
 
-            
+            <div class="project-meta-card" style="margin-top:10px;">
+              <div class="project-meta-label">Current Phase</div>
+              <div class="project-meta-value">${escapeHtml(getProgressLabel(job))}</div>
+            </div>
 
-            
-<div class="project-meta-card" style="margin-top:10px;">
-  <div class="project-meta-label">Current Phase</div>
-  <div class="project-meta-value">${escapeHtml(getProgressLabel(job))}</div>
-</div>
+            ${(job.clientAppointment || job.installDate) ? `
+              <div class="milestone-grid">
+                ${job.clientAppointment ? `
+                  <div class="milestone-card">
+                    <div class="milestone-label">Appointment</div>
+                    <div class="milestone-value">${escapeHtml(formatDate(job.clientAppointment))}</div>
+                  </div>
+                ` : ''}
 
-<div class="progress-wrap">
+                ${job.installDate ? `
+                  <div class="milestone-card">
+                    <div class="milestone-label">Install Target</div>
+                    <div class="milestone-value">${escapeHtml(toInputDate(job.installDate) ? formatDate(toInputDate(job.installDate)) : formatDate(job.installDate))}</div>
+                  </div>
+                ` : ''}
+              </div>
+            ` : ''}
 
+            <div class="progress-wrap">
               <div class="progress-head">
                 <div class="progress-label">Project Progress</div>
                 <div class="progress-value">${progress}% · ${escapeHtml(getProgressLabel(job))}</div>
@@ -2664,6 +2734,13 @@
             </div>
           </div>
         </div>
+
+        ${!hasAction ? `
+        <div class="project-card">
+          <h2>Action Needed</h2>
+          <div class="section">You are all set right now. Nothing is needed from you at the moment.</div>
+        </div>
+        ` : ''}
 
         <div class="project-card">
           <h2>Project Documents</h2>
@@ -2676,6 +2753,7 @@
           </div>
         </div>
 
+        
         <div class="project-card">
           <h2>Care & Warranty</h2>
           <div class="doc-links">
@@ -2693,68 +2771,16 @@
                 <div class="photo-grid">
                   ${initialPhotos.map(raw => {
                     const normalized = normalizePhotoLink(raw);
-
-                    if (isIcloudPhotoLink(raw)) {
-                      return `
-                        <div class="project-card" style="margin:0; padding:12px;">
-                          <div class="section">Photo link</div>
-                          <a class="doc-link" href="${escapeHtml(raw)}" target="_blank">Open Photo</a>
-                        </div>
-                      `;
-                    }
-
-                    return `<a href="javascript:void(0)"><img src="${escapeHtml(normalized)}" alt="Project photo" onclick="openLightbox('${escapeHtml(normalized)}')"></a>`;
+                    return `<a href="javascript:void(0)"><img src="${escapeHtml(normalized)}" onclick="openLightbox('${escapeHtml(normalized)}')"></a>`;
                   }).join('')}
                 </div>
-
-                ${extraPhotos.length ? `
-                  <div id="extraPhotos" class="photo-grid photo-grid-extra hidden" style="margin-top: 10px;">
-                    ${extraPhotos.map(raw => {
-                      const normalized = normalizePhotoLink(raw);
-
-                      if (isIcloudPhotoLink(raw)) {
-                        return `
-                          <div class="project-card" style="margin:0; padding:12px;">
-                            <div class="section">Photo link</div>
-                            <a class="doc-link" href="${escapeHtml(raw)}" target="_blank">Open Photo</a>
-                          </div>
-                        `;
-                      }
-
-                      return `<a href="javascript:void(0)"><img src="${escapeHtml(normalized)}" alt="Project photo" onclick="openLightbox('${escapeHtml(normalized)}')"></a>`;
-                    }).join('')}
-                  </div>
-
-                  <div class="photo-gallery-actions">
-                    <button
-                      id="morePhotosBtn"
-                      class="photo-gallery-toggle"
-                      type="button"
-                      data-more-label="See ${extraPhotos.length} more photo${extraPhotos.length === 1 ? '' : 's'}"
-                      onclick="toggleMorePhotos()"
-                    >See ${extraPhotos.length} more photo${extraPhotos.length === 1 ? '' : 's'}</button>
-                  </div>
-                ` : ''}
               `
               : '<div class="section">No photos added yet.</div>'
           }
         </div>
-
-        <div class="project-card">
-          <h2>Action Needed</h2>
-          ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
-          ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
-          ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
-          ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
-${job.customerRequestTitle || job.customerRequestDetails || job.customerRequestStatus ? `
-<a class="doc-link" href="mailto:info@premiercabinetandwood.com?subject=Project%20Update%20for%20${encodeURIComponent(job.projectTitle || job.jobName || '')}">
-  Send Requested Information
-</a>` : ''}
-
-          ${!job.customerRequestTitle && !job.customerRequestDetails && !job.customerRequestStatus && !job.customerRequestLink ? '<div class="section">You are all set right now. Nothing is needed from you at the moment.</div>' : ''}
-        </div>
       `;
     }
+
 
     function populateAdminFilters() {
       const statusFilter = $('adminStatusFilter');
