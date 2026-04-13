@@ -539,7 +539,7 @@
     }
 
     body.tv-mode .tv-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       flex: 1 1 auto;
       min-height: 0;
@@ -1561,12 +1561,6 @@
 
         <div class="tv-grid">
           <div class="card">
-            <h3>Office</h3>
-            <div id="tvOffice"></div>
-            <div id="tvOfficeFooter" class="column-footer"></div>
-          </div>
-
-          <div class="card">
             <h3>Shop</h3>
             <div id="tvShop"></div>
             <div id="tvShopFooter" class="column-footer"></div>
@@ -2580,11 +2574,9 @@
       renderPriorityNow(sorted);
       renderTvIssues(sorted);
 
-      const officeJobs = sorted.filter(job => job.status === 'Measure' || job.status === 'Design');
       const shopJobs = sorted.filter(job => job.status === 'In Shop' || job.status === 'Ready to Install');
       const finishJobs = sorted.filter(job => job.status === 'Ready for Finish' || job.status === 'In Finish');
 
-      renderTvColumn('tvOffice', officeJobs, 'No office jobs.', maxItems, 'tvOfficeFooter');
       renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
       renderTvColumn('tvFinish', finishJobs, 'No finish jobs.', maxItems, 'tvFinishFooter');
     }
