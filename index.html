@@ -314,6 +314,10 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    body.tv-mode #statusMsg {
+      display: none !important;
+    }
+
     #statusMsg {
       color: #bfdbfe;
       font-size: 13px;
@@ -1572,6 +1576,7 @@
     }
 
     function setStatus(message) {
+      if (queryView === 'tv') return;
       $('statusMsg').textContent = message || '';
     }
 
