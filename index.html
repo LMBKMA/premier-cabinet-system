@@ -566,7 +566,10 @@
     body.tv-mode #tvOffice,
     body.tv-mode #tvShop,
     body.tv-mode #tvFinish {
-      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      align-content: start;
     }
 
     body.tv-mode .priority-card,
@@ -1347,6 +1350,13 @@
       }
     }
 
+
+    #tvShop {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      align-content: start;
+    }
 </style>
 </head>
 <body>
@@ -2550,6 +2560,24 @@
       }
     }
 
+
+    function buildTvBoardCard(job) {
+      const priority = getEffectivePriority(job);
+
+      return `
+        <div class="job">
+          ${buildPriorityBadge(job)}
+          <div class="title">${escapeHtml(job.jobName)}</div>
+          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+          ${job.clientAppointment ? `<div class="section">Appointment: ${escapeHtml(formatDate(job.clientAppointment))}</div>` : ''}
+          ${job.finishDue ? `<div class="section">Finish: ${escapeHtml(formatDate(job.finishDue))}</div>` : ''}
+          ${job.installDate ? `<div class="section">Install: ${escapeHtml(formatDate(toInputDate(job.installDate) || job.installDate))}</div>` : ''}
+          ${job.shop ? `<div class="section">${escapeHtml(job.shop)}</div>` : ''}
+          ${job.issues ? `<div class="section issue">${escapeHtml(job.issues)}</div>` : ''}
+        </div>
+      `;
+    }
+
     function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
       const container = $(targetId);
       const footer = $(footerId);
@@ -2565,6 +2593,18 @@
       const hiddenCount = Math.max(0, jobsForColumn.length - visibleJobs.length);
 
       container.innerHTML = visibleJobs
+        .map(job => buildTvBoardCard(job))
+        .join('');
+
+      if (hiddenCount > 0) {
+        footer.textContent = `${hiddenCount} more not shown`;
+      }
+    }
+
+      const visibleJobs = jobsForColumn.slice(0, maxItems);
+      const hiddenCount = Math.max(0, jobsForColumn.length - visibleJobs.length);
+
+      container.innerHTML = visibleJobs
         .map(job => `<div class="job">${buildInternalCard(job, true)}</div>`)
         .join('');
 
@@ -2575,7 +2615,7 @@
 
     function renderTv() {
       const sorted = getSortedJobs();
-      const maxItems = getMaxItemsPerColumn();
+      const baseMaxItems = getMaxItemsPerColumn();
 
       renderPriorityNow(sorted);
       renderTvIssues(sorted);
@@ -2583,8 +2623,11 @@
       const shopJobs = sorted.filter(job => job.status === 'In Shop' || job.status === 'Ready to Install');
       const finishJobs = sorted.filter(job => job.status === 'Ready for Finish' || job.status === 'In Finish');
 
-      renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
-      renderTvColumn('tvFinish', finishJobs, 'No finish jobs.', maxItems, 'tvFinishFooter');
+      const shopMaxItems = Math.max(8, baseMaxItems * 2);
+      const finishMaxItems = Math.max(4, baseMaxItems);
+
+      renderTvColumn('tvShop', shopJobs, 'No shop jobs.', shopMaxItems, 'tvShopFooter');
+      renderTvColumn('tvFinish', finishJobs, 'No finish jobs.', finishMaxItems, 'tvFinishFooter');
     }
 
     function renderAdminSummary(filteredJobs) {
