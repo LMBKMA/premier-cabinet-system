@@ -46,13 +46,22 @@
 
     body.tv-mode {
       overflow: hidden;
-      padding: 12px;
-      background: #0f0f0f;
+      padding: 10px;
+      height: 100vh;
+      background: #080808;
+      font-size: clamp(14px, 1vw, 18px);
     }
 
     .wrap {
       max-width: 1500px;
       margin: 0 auto;
+    }
+
+    body.tv-mode .wrap {
+      max-width: none;
+      height: calc(100vh - 20px);
+      display: flex;
+      flex-direction: column;
     }
 
     .hidden {
@@ -74,12 +83,14 @@
     }
 
     body.tv-mode .brand {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      flex: 0 0 auto;
     }
 
     body.tv-mode .brand img {
-      height: 72px;
-      max-width: 280px;
+      height: 58px;
+      max-width: 220px;
+      filter: none;
     }
 
     .toolbar {
@@ -509,6 +520,112 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       align-content: start;
+    }
+
+    body.tv-mode #tvView.active {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      gap: 10px;
+    }
+
+    body.tv-mode .tv-top-row {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 10px;
+      margin-bottom: 0;
+      flex: 0 0 auto;
+    }
+
+    body.tv-mode .tv-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      flex: 1 1 auto;
+      min-height: 0;
+      margin-bottom: 0;
+    }
+
+    body.tv-mode .tv-top-row .card,
+    body.tv-mode .tv-grid .card {
+      padding: 14px;
+      margin-bottom: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-color: rgba(255,255,255,0.10);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.30);
+    }
+
+    body.tv-mode #priorityNow,
+    body.tv-mode #tvIssuesTop {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    body.tv-mode #tvOffice,
+    body.tv-mode #tvShop,
+    body.tv-mode #tvFinish {
+      overflow: hidden;
+    }
+
+    body.tv-mode .priority-card,
+    body.tv-mode .job {
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: none;
+    }
+
+    body.tv-mode .priority-card:last-child,
+    body.tv-mode .job:last-child {
+      margin-bottom: 0;
+    }
+
+    body.tv-mode h2 {
+      font-size: clamp(22px, 1.8vw, 30px);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    body.tv-mode h3 {
+      font-size: clamp(18px, 1.45vw, 24px);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    body.tv-mode .title {
+      font-size: clamp(18px, 1.25vw, 24px);
+      margin-bottom: 6px;
+      line-height: 1.15;
+    }
+
+    body.tv-mode .stage {
+      font-size: clamp(12px, 0.95vw, 15px);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    body.tv-mode .section {
+      font-size: clamp(14px, 0.95vw, 18px);
+      line-height: 1.28;
+      margin-top: 4px;
+      color: #ddd7cf;
+    }
+
+    body.tv-mode .priority-badge {
+      font-size: clamp(11px, 0.85vw, 13px);
+      padding: 5px 10px;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    body.tv-mode .column-footer {
+      margin-top: auto;
+      padding-top: 6px;
+      font-size: 12px;
+      color: var(--muted-2);
     }
 
     .admin-toolbar {
@@ -2301,7 +2418,6 @@
         const priority = getEffectivePriority(job);
         const reason =
           String(job.priorityReason || '').trim() ||
-          String(job.issues || '').trim() ||
           autoPriorityReason(job);
 
         return `
@@ -2316,10 +2432,9 @@
 
     function getMaxItemsPerColumn() {
       const height = window.innerHeight || 900;
-      if (height < 700) return 2;
-      if (height < 850) return 3;
-      if (height < 1000) return 4;
-      return 5;
+      if (height < 760) return 2;
+      if (height < 940) return 3;
+      return 4;
     }
 
     function renderTvIssues(sortedJobs) {
