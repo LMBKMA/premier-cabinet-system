@@ -887,6 +887,12 @@ body.tv-mode .priority-badge {
   align-items: start;
 }
 
+    body.tv-mode .tv-job-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
 /* =========================
    PROJECT PAGE / CLIENT PORTAL
    ========================= */
@@ -2932,28 +2938,33 @@ body.project-mode .photo-gallery-toggle {
       }
     }
 
-    function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
-      const container = $(targetId);
-      const footer = $(footerId);
+    function renderTvColumn(id, jobs, emptyText, maxItems, footerId, isGrid = false) {
+  const el = $(id);
+  const footer = $(footerId);
 
-      footer.textContent = '';
+  if (!jobs.length) {
+    el.innerHTML = `<div class="job">${emptyText}</div>`;
+    if (footer) footer.textContent = '';
+    return;
+  }
 
-      if (!jobsForColumn.length) {
-        container.innerHTML = `<div class="job">${emptyText}</div>`;
-        return;
-      }
+  const visible = jobs.slice(0, maxItems);
+  const hiddenCount = jobs.length - visible.length;
 
-      const visibleJobs = jobsForColumn.slice(0, maxItems);
-      const hiddenCount = Math.max(0, jobsForColumn.length - visibleJobs.length);
+  el.innerHTML = `
+    <div class="${isGrid ? 'tv-job-grid' : ''}">
+      ${visible.map(job => `
+        <div class="job">
+          ${buildInternalCard(job, true)}
+        </div>
+      `).join('')}
+    </div>
+  `;
 
-      container.innerHTML = visibleJobs
-        .map(job => `<div class="job">${buildInternalCard(job, true)}</div>`)
-        .join('');
-
-      if (hiddenCount > 0) {
-        footer.textContent = `${hiddenCount} more not shown`;
-      }
-    }
+  if (footer) {
+    footer.textContent = hiddenCount > 0 ? `${hiddenCount} more not shown` : '';
+  }
+}
 
     function formatDateOnly(value) {
   const date = parseDateValue(value);
@@ -2988,8 +2999,8 @@ body.project-mode .photo-gallery-toggle {
     return days !== null && days >= 0 && days <= 7;
   });
 
-  renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
-
+renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter', true);
+      
   const finishContainer = $('tvFinish');
   const finishFooter = $('tvFinishFooter');
 
