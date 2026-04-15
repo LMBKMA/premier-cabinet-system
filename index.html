@@ -44,162 +44,109 @@
       letter-spacing: 0.01em;
     }
 
-    body.tv-mode {
-      overflow: hidden;
-      padding: 10px;
-      height: 100vh;
-      background: #080808;
-      font-size: clamp(14px, 1vw, 18px);
-    }
+    /* =========================
+   TV MODE (CLEAN RESET)
+   ========================= */
 
-    .wrap {
-      max-width: 1500px;
-      margin: 0 auto;
-    }
+body.tv-mode {
+  background: #0b0b0b;
+  padding: 16px;
+  overflow: hidden;
+}
 
-    body.tv-mode .wrap {
-      max-width: none;
-      height: calc(100vh - 20px);
-      display: flex;
-      flex-direction: column;
-    }
+body.tv-mode .wrap {
+  max-width: none;
+}
 
-    .hidden {
-      display: none !important;
-    }
+/* GRID LAYOUT */
+body.tv-mode .tv-grid {
+  display: grid;
+  grid-template-columns: 3.5fr 1fr; /* 👈 WIDE SHOP */
+  gap: 16px;
+  height: calc(100vh - 32px);
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 20px;
-    }
+/* COLUMNS */
+body.tv-mode .tv-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0; /* 👈 prevents shrinking issues */
+}
 
-    .brand img {
-      max-height: 70px;
-      height: 120px;
-      max-width: 420px;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.3));
-    }
+/* SECTIONS (Priority, Issues, Shop, Finish) */
+body.tv-mode .tv-section {
+  background: linear-gradient(180deg, #161616, #101010);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
 
-    body.tv-mode .brand {
-      margin-bottom: 8px;
-      flex: 0 0 auto;
-    }
+/* SECTION TITLES */
+body.tv-mode .tv-section h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.04em;
+}
 
-    body.tv-mode .brand img {
-      max-height: 70px;
-      height: 58px;
-      max-width: 220px;
-      filter: none;
-    }
+/* JOB LIST */
+body.tv-mode .tv-section .job {
+  background: linear-gradient(180deg, #1c1c1c, #141414);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
 
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 22px;
-      padding: 12px;
-      background: rgba(18, 25, 34, 0.82);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(12px);
-    }
+/* JOB TITLE */
+body.tv-mode .tv-section .job .title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
 
-    body.tv-mode .toolbar {
-      display: none !important;
-      margin-bottom: 0;
-    }
+/* STAGE TEXT */
+body.tv-mode .tv-section .job .stage {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 6px;
+}
 
-    button {
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      background: var(--panel-3);
-      color: var(--text);
-      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-      box-shadow: none;
-    }
+/* SECTION TEXT */
+body.tv-mode .tv-section .job .section {
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.4;
+}
 
-    button:hover {
-      transform: translateY(-1px);
-    }
+/* ISSUES (keep visible but subtle) */
+body.tv-mode .tv-section .job .issue {
+  color: #ffb3b3;
+}
 
-    button:active {
-      transform: translateY(0);
-    }
+/* PRIORITY BADGES (keep your existing colors) */
+body.tv-mode .priority-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
 
-    .tab {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .tab.active {
-      background: var(--blue);
-      border-color: var(--blue);
-      box-shadow: none;
-      color: white;
-    }
-
-    .save {
-      background: var(--blue);
-      color: white;
-      border-color: var(--blue);
-    }
-
-    .reload {
-      background: #2d3540;
-      color: white;
-      border-color: #2d3540;
-    }
-
-    .add {
-      background: var(--green);
-      color: white;
-      border-color: var(--green);
-    }
-
-    .delete {
-      background: var(--red);
-      color: white;
-      border-color: var(--red);
-    }
-
-    .card,
-    .job,
-    .priority-card,
-    .project-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .priority-card {
-      border: 1px solid rgba(183, 139, 65, 0.38);
-      background: var(--panel-2);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .tv-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
+/* FOOTER (hidden count) */
+body.tv-mode .tv-footer {
+  margin-top: auto;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  text-align: right;
+}
 
     .photo-grid {
       display: grid;
@@ -243,95 +190,7 @@
       letter-spacing: -0.02em;
     }
 
-    body.tv-mode h2,
-    body.tv-mode h3 {
-      margin-bottom: 8px;
-    }
-
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted-2);
-      margin-top: 4px;
-    }
-
-    .title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 8px;
-      line-height: 1.15;
-    }
-
-    .stage {
-      color: var(--cyan);
-      font-weight: 700;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-size: 12px;
-    }
-
-    .section {
-      margin-top: 8px;
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    .issue {
-      color: var(--pink);
-      font-weight: bold;
-    }
-
-    .priority-badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 800;
-      margin-bottom: 10px;
-      color: white;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .priority-normal {
-      background: #4b5563;
-    }
-
-    .priority-important {
-      background: var(--amber);
-    }
-
-    .priority-urgent {
-      background: var(--orange);
-    }
-
-    .priority-stop {
-      background: var(--red);
-    }
-
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-      animation: fadeIn 0.18s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    body.tv-mode #statusMsg {
-      display: none !important;
-    }
-
+    
     #statusMsg {
       color: #bfdbfe;
       font-size: 13px;
@@ -417,218 +276,7 @@
       margin-top: 2px;
     }
 
-    body.tv-mode .job,
-    body.tv-mode .card,
-    body.tv-mode .priority-card {
-      padding: 12px;
-      margin-bottom: 8px;
-    }
-
-    body.tv-mode .title {
-      font-size: 17px;
-      margin-bottom: 4px;
-      font-weight: 700;
-    }
-
-    body.tv-mode .stage {
-      font-size: 12px;
-      margin-bottom: 4px;
-    }
-
-    body.tv-mode .section {
-      font-size: 13px;
-      line-height: 1.3;
-      margin-top: 4px;
-    }
-
-    body.tv-mode .priority-badge {
-      font-size: 11px;
-      padding: 4px 8px;
-      margin-bottom: 6px;
-    }
-
-    .column-footer {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .office-job {
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .office-job-header {
-      width: 100%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-      color: white;
-      border: none;
-      border-radius: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 18px;
-      text-align: left;
-      font-size: 18px;
-      font-weight: 800;
-      box-shadow: none;
-    }
-
-    .office-job-header:hover {
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .office-job-title {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .office-job-toggle {
-      flex: 0 0 auto;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    .office-job-body {
-      padding: 4px 18px 18px;
-      border-top: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-    }
-
-    .office-job.collapsed .office-job-body {
-      display: none;
-    }
-
-    .office-job.collapsed .office-job-header {
-      padding-bottom: 16px;
-    }
-
-
-    .tv-top-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-      flex: 0 0 auto;
-    }
-
-    #priorityNow,
-    #tvIssuesTop {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      align-content: start;
-    }
-
-    body.tv-mode #tvView.active {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow: hidden;
-      gap: 10px;
-    }
-
-    body.tv-mode .tv-top-row {
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 10px;
-      margin-bottom: 0;
-      flex: 0 0 auto;
-    }
-
-    body.tv-mode .tv-grid {
-      grid-template-columns: 2fr 1fr;
-      gap: 10px;
-      flex: 1 1 auto;
-      min-height: 0;
-      margin-bottom: 0;
-    }
-
-    body.tv-mode .tv-top-row .card,
-    body.tv-mode .tv-grid .card {
-      padding: 14px;
-      margin-bottom: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-color: rgba(255,255,255,0.10);
-      box-shadow: 0 14px 30px rgba(0,0,0,0.30);
-    }
-
-    body.tv-mode #priorityNow,
-    body.tv-mode #tvIssuesTop {
-      grid-template-columns: 2fr 1fr;
-      gap: 10px;
-    }
-
-    body.tv-mode #tvOffice,
-    body.tv-mode #tvShop,
-    body.tv-mode #tvFinish {
-      overflow: hidden;
-    }
-
-    body.tv-mode .priority-card,
-    body.tv-mode .job {
-      padding: 12px;
-      margin-bottom: 8px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: none;
-    }
-
-    body.tv-mode .priority-card:last-child,
-    body.tv-mode .job:last-child {
-      margin-bottom: 0;
-    }
-
-    body.tv-mode h2 {
-      font-size: clamp(22px, 1.8vw, 30px);
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
-    }
-
-    body.tv-mode h3 {
-      font-size: clamp(18px, 1.45vw, 24px);
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
-    }
-
-    body.tv-mode .title {
-      font-size: clamp(18px, 1.25vw, 24px);
-      margin-bottom: 6px;
-      line-height: 1.15;
-    }
-
-    body.tv-mode .stage {
-      font-size: clamp(12px, 0.95vw, 15px);
-      margin-bottom: 6px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    body.tv-mode .section {
-      font-size: clamp(14px, 0.95vw, 18px);
-      line-height: 1.28;
-      margin-top: 4px;
-      color: #ddd7cf;
-    }
-
-    body.tv-mode .priority-badge {
-      font-size: clamp(11px, 0.85vw, 13px);
-      padding: 5px 10px;
-      margin-bottom: 8px;
-      letter-spacing: 0.05em;
-    }
-
-    body.tv-mode .column-footer {
-      margin-top: auto;
-      padding-top: 6px;
-      font-size: 12px;
-      color: var(--muted-2);
-    }
+    
 
     .admin-toolbar {
       display: grid;
@@ -709,142 +357,7 @@
       min-height: 18px;
     }
 
-    body.tv-mode {
-      overflow: hidden;
-      padding: 10px;
-      height: 100vh;
-      font-size: clamp(13px, 1.2vw, 18px);
-      cursor: none;
-    }
-
-    body.tv-mode .wrap {
-      max-width: none;
-      height: calc(100vh - 20px);
-      display: flex;
-      flex-direction: column;
-    }
-
-    body.tv-mode #tvView.active {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    body.tv-mode #brandBar {
-      margin-bottom: 8px;
-      flex: 0 0 auto;
-    }
-
-    body.tv-mode .brand img {
-      max-height: 70px;
-      height: 62px;
-      max-width: 240px;
-    }
-
-    body.tv-mode .tv-grid {
-      flex: 1;
-      overflow: hidden;
-      margin-bottom: 0;
-    }
-
-    body.tv-mode .tv-top-row .card,
-    body.tv-mode .tv-grid .card {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    body.tv-mode .column-footer {
-      margin-top: auto;
-    }
-
-    @media (max-width: 1100px) {
-      .tv-top-row,
-      .admin-toolbar,
-      .admin-summary,
-      #priorityNow,
-      #tvIssuesTop,
-      .tv-grid,
-      .photo-grid {
-        grid-template-columns: 1fr;
-      }
-
-      body.tv-mode {
-        overflow: auto;
-        height: auto;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .brand img {
-      max-height: 70px;
-        height: 90px;
-        max-width: 320px;
-      }
-    }
-  
-    .card > h2,
-    .card > h3,
-    .project-card > h2 {
-      margin-bottom: 14px;
-    }
-
-    .grid {
-      gap: 14px;
-    }
-
-    .office-job {
-      border-radius: 18px;
-    }
-
-    .small {
-      color: var(--muted-2);
-    }
-
-    .customer-link {
-      padding-top: 8px;
-    }
-
-    .project-card h1 {
-      font-size: clamp(28px, 4vw, 40px);
-      margin-bottom: 16px;
-    }
-
-    .project-card {
-      padding: 22px;
-    }
-
-    .photo-grid img {
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .admin-toolbar > div,
-    .tv-top-row > .card,
-    .tv-grid > .card {
-      min-width: 0;
-    }
-
-  
-    
-    body.tv-mode .priority-badge {
-      font-size: 12px;
-    }
-
-    body.tv-mode .title {
-      font-size: 16px;
-    }
-
-    body.tv-mode .stage,
-    body.tv-mode .section {
-      color: #e5dfd8;
-    }
+   
 
 /* =========================
    PROJECT PAGE / CLIENT PORTAL
