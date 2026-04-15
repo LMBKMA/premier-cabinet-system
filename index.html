@@ -832,223 +832,7 @@
     }
 
   
-    body.project-mode {
-      padding: 12px;
-    }
-
-    body.project-mode .wrap {
-      max-width: 900px;
-    }
-
-    body.project-mode #brandBar {
-      margin-bottom: 12px;
-      justify-content: center;
-    }
-
-    body.project-mode .brand img {
-      max-height: 70px;
-      height: 68px;
-      max-width: 220px;
-    }
-
-    .project-hero {
-      padding: 24px;
-      background: var(--panel);
-      border: 1px solid var(--border-strong);
-    }
-
-    .project-eyebrow {
-      display: none;
-    }
-
-    .project-hero h1 {
-      font-size: clamp(28px, 7vw, 42px);
-      line-height: 1.08;
-      margin-bottom: 12px;
-    }
-
-    .project-lead {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .project-chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .project-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 9px 13px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #202020;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .project-stack {
-      display: grid;
-      gap: 14px;
-    }
-
-    .project-section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .project-section-title h2 {
-      margin-bottom: 0;
-    }
-
-    .project-muted {
-      color: var(--muted-2);
-      font-size: 13px;
-    }
-
-    .project-callout {
-      border-left: 3px solid rgba(255,255,255,0.16);
-      padding-left: 12px;
-    }
-
-    body.project-mode .project-card {
-      padding: 20px;
-      border-radius: 20px;
-    }
-
-    body.project-mode .doc-links {
-      grid-template-columns: 1fr;
-    }
-
-    body.project-mode .doc-link {
-      padding: 16px 18px;
-      font-size: 15px;
-    }
-
-    body.project-mode .photo-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    body.project-mode .photo-grid a {
-      display: block;
-    }
-
-    body.project-mode .photo-grid img {
-      height: 170px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-    }
-
-    @media (max-width: 700px) {
-      body.project-mode {
-        padding: 10px;
-      }
-
-      body.project-mode .wrap {
-        max-width: none;
-      }
-
-      body.project-mode .brand img {
-      max-height: 70px;
-        height: 56px;
-        max-width: 190px;
-      }
-
-      body.project-mode .project-card,
-      body.project-mode .project-hero {
-        padding: 16px;
-        border-radius: 16px;
-      }
-
-      body.project-mode .project-chip-row {
-        gap: 6px;
-      }
-
-      body.project-mode .project-chip {
-        width: 100%;
-        justify-content: center;
-        padding: 12px 14px;
-      }
-
-      body.project-mode .photo-grid {
-        grid-template-columns: 1fr;
-      }
-
-      body.project-mode .photo-grid img {
-        height: auto;
-        aspect-ratio: 4 / 3;
-      }
-    }
-
-
-    body.project-mode {
-      background: #111111;
-    }
-
-    body.project-mode .brand {
-      margin-bottom: 14px;
-    }
-
-    body.project-mode .project-hero {
-      background: #171717;
-      border-color: rgba(255,255,255,0.08);
-      box-shadow: var(--shadow-soft);
-    }
-
-    body.project-mode .project-card {
-      background: #171717;
-      border-color: rgba(255,255,255,0.08);
-      box-shadow: var(--shadow-soft);
-    }
-
-    body.project-mode .project-lead {
-      color: var(--text);
-      opacity: 0.88;
-      font-size: 16px;
-    }
-
-    body.project-mode .project-chip {
-      background: #202020;
-      border-color: rgba(255,255,255,0.08);
-      color: var(--text);
-    }
-
-    body.project-mode .project-section-title h2 {
-      font-size: 20px;
-      letter-spacing: 0.01em;
-    }
-
-    body.project-mode .project-muted {
-      color: var(--muted);
-    }
-
-    body.project-mode .doc-link {
-      background: #232323;
-      border-color: rgba(255,255,255,0.08);
-      color: var(--text) !important;
-      box-shadow: none;
-    }
-
-    body.project-mode .doc-link:hover {
-      background: #2a2a2a;
-      border-color: rgba(255,255,255,0.12);
-    }
-
-    body.project-mode .project-callout {
-      border-left-color: rgba(255,255,255,0.12);
-      padding-left: 14px;
-    }
-
+    
     body.tv-mode .priority-badge {
       font-size: 12px;
     }
@@ -1062,15 +846,24 @@
       color: #e5dfd8;
     }
 
+/* =========================
+   PROJECT PAGE / CLIENT PORTAL
+   ========================= */
+
 body.project-mode {
+  padding: 14px;
   background:
     radial-gradient(circle at top center, rgba(255,255,255,0.05), transparent 35%),
     linear-gradient(180deg, #0d0d0d 0%, #111111 100%);
-  padding: 14px;
 }
 
 body.project-mode .wrap {
   max-width: 980px;
+}
+
+body.project-mode #brandBar {
+  margin-bottom: 18px;
+  justify-content: center;
 }
 
 body.project-mode .brand {
@@ -1085,10 +878,14 @@ body.project-mode .brand img {
   filter: drop-shadow(0 10px 20px rgba(0,0,0,0.28));
 }
 
+body.project-mode .project-stack {
+  display: grid;
+  gap: 16px;
+}
+
 body.project-mode .project-card,
 body.project-mode .project-hero {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+  background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow:
     0 20px 50px rgba(0,0,0,0.28),
@@ -1097,6 +894,8 @@ body.project-mode .project-hero {
 }
 
 body.project-mode .project-hero {
+  display: grid;
+  gap: 14px;
   padding: 28px;
 }
 
@@ -1104,7 +903,7 @@ body.project-mode .project-card {
   padding: 22px;
 }
 
-.project-eyebrow {
+body.project-mode .project-eyebrow {
   display: inline-flex;
   width: fit-content;
   padding: 8px 12px;
@@ -1115,11 +914,14 @@ body.project-mode .project-card {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 body.project-mode .project-section-title {
+  display: flex;
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 14px;
 }
 
@@ -1133,6 +935,7 @@ body.project-mode .project-section-title h1 {
 body.project-mode .project-section-title h2 {
   font-size: 22px;
   letter-spacing: -0.02em;
+  margin-bottom: 0;
 }
 
 body.project-mode .project-muted {
@@ -1146,56 +949,47 @@ body.project-mode .project-lead {
   line-height: 1.6;
 }
 
-    body.project-mode .project-card.action-needed {
-  background: rgba(255, 80, 80, 0.06);
-  border: 1px solid rgba(255, 80, 80, 0.18);
-}
-
-body.project-mode .project-card.action-needed h2 {
-  color: #ffb3b3;
-}
-
-body.project-mode .project-card.action-needed .doc-link.primary {
-  background: linear-gradient(180deg, rgba(255,80,80,0.9), rgba(255,80,80,0.75));
-  border: none;
-  color: white !important;
-  box-shadow: 0 8px 20px rgba(255,80,80,0.25);
-}
-
-body.project-mode .project-card.action-needed .doc-link.primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(255,80,80,0.35);
-}
-
 body.project-mode .project-callout {
-  border-left: none;
-  padding-left: 0;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 18px;
   padding: 16px 18px;
+  border-left: none;
 }
 
 body.project-mode .project-chip-row {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: 4px;
 }
 
 body.project-mode .project-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 999px;
   background: rgba(255,255,255,0.045);
   border: 1px solid rgba(255,255,255,0.09);
   color: var(--text);
-  padding: 10px 14px;
-  border-radius: 999px;
   font-size: 13px;
   font-weight: 650;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
 }
 
+body.project-mode .project-chip.alert {
+  background: rgba(255,80,80,0.12);
+  border: 1px solid rgba(255,80,80,0.25);
+  color: #ffb3b3;
+}
+
 body.project-mode .project-meta-grid {
+  display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-top: 18px;
+  margin-top: 4px;
+  align-items: start;
 }
 
 body.project-mode .project-meta-card,
@@ -1220,78 +1014,137 @@ body.project-mode .project-meta-value,
 body.project-mode .milestone-value {
   font-size: 16px;
   line-height: 1.5;
-  color: rgba(246,243,238,0.94);
+  color: rgba(246,243,238,0.85);
 }
 
 body.project-mode .milestone-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   gap: 14px;
-  margin-top: 16px;
+  margin-top: 2px;
 }
 
-.progress-wrap {
-  margin-top: 18px;
+body.project-mode .section {
+  color: rgba(246,243,238,0.82);
+  line-height: 1.6;
+}
+
+/* Progress */
+body.project-mode .progress-wrap {
+  margin-top: 4px;
   padding: 14px 16px;
   background: rgba(255,255,255,0.025);
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 18px;
 }
 
-.progress-head {
+body.project-mode .progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 10px;
 }
 
-.progress-label {
+body.project-mode .progress-label {
   color: rgba(246,243,238,0.68);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
-.progress-value {
+body.project-mode .progress-value {
   font-size: 14px;
   font-weight: 700;
   color: rgba(246,243,238,0.96);
+  white-space: nowrap;
 }
 
-.progress-track {
+body.project-mode .progress-track {
+  width: 100%;
   height: 12px;
   background: rgba(255,255,255,0.08);
   border-radius: 999px;
   overflow: hidden;
 }
 
-.progress-fill {
+body.project-mode .progress-fill {
   height: 100%;
   border-radius: 999px;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.78), rgba(255,255,255,0.96));
+  background: linear-gradient(90deg, rgba(255,255,255,0.78), rgba(255,255,255,0.96));
   box-shadow: 0 0 18px rgba(255,255,255,0.12);
+  transition: width 0.25s ease;
 }
 
+/* Documents / actions */
 body.project-mode .doc-links {
+  display: grid;
   gap: 12px;
+  margin-top: 10px;
 }
 
 body.project-mode .doc-link {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--text) !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #ffffff !important;
+  text-decoration: none;
   padding: 16px 18px;
   border-radius: 16px;
   font-size: 15px;
   font-weight: 650;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.14);
-  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
 
 body.project-mode .doc-link:hover {
-  transform: translateY(-1px);
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
 }
 
+body.project-mode .doc-link::after {
+  content: "→";
+  opacity: 0.6;
+  margin-left: auto;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+body.project-mode .doc-link:hover::after {
+  transform: translateX(4px);
+  opacity: 1;
+}
+
+body.project-mode .doc-link.primary {
+  background: linear-gradient(180deg, rgba(255,80,80,0.9), rgba(255,80,80,0.75));
+  border: none;
+  color: white !important;
+  box-shadow: 0 8px 20px rgba(255,80,80,0.25);
+}
+
+body.project-mode .doc-link.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(255,80,80,0.35);
+}
+
+/* Action-needed emphasis */
+body.project-mode .project-card.action-needed {
+  background: rgba(255,80,80,0.06);
+  border: 1px solid rgba(255,80,80,0.18);
+}
+
+body.project-mode .project-card.action-needed h2 {
+  color: #ffb3b3;
+}
+
+/* Photos */
 body.project-mode .photo-grid {
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 10px;
@@ -1311,31 +1164,40 @@ body.project-mode .photo-grid img {
   background: #171717;
 }
 
-.photo-gallery-actions {
+body.project-mode .photo-gallery-actions {
   margin-top: 16px;
+  display: flex;
+  justify-content: center;
 }
 
-.photo-gallery-toggle {
+body.project-mode .photo-gallery-toggle {
   background: rgba(255,255,255,0.045);
   color: var(--text);
   border: 1px solid rgba(255,255,255,0.10);
   border-radius: 999px;
   padding: 11px 18px;
   font-weight: 650;
+  cursor: pointer;
 }
 
-.project-stack {
-  gap: 16px;
-}
-
-body.project-mode .section {
-  color: rgba(246,243,238,0.82);
-  line-height: 1.6;
-}
-
+/* Mobile first priority */
 @media (max-width: 700px) {
   body.project-mode {
     padding: 10px;
+  }
+
+  body.project-mode .wrap {
+    max-width: none;
+  }
+
+  body.project-mode #brandBar,
+  body.project-mode .brand {
+    margin-bottom: 12px;
+  }
+
+  body.project-mode .brand img {
+    height: 54px;
+    max-width: 180px;
   }
 
   body.project-mode .project-hero,
@@ -1344,24 +1206,89 @@ body.project-mode .section {
     border-radius: 18px;
   }
 
+  body.project-mode .project-section-title {
+    display: block;
+    margin-bottom: 10px;
+  }
+
   body.project-mode .project-section-title h1 {
-    font-size: 32px;
+    font-size: 30px;
+    line-height: 1.05;
+    margin-bottom: 6px;
+  }
+
+  body.project-mode .project-section-title h2 {
+    font-size: 22px;
+  }
+
+  body.project-mode .project-lead {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  body.project-mode .project-chip-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  body.project-mode .project-chip {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 14px;
   }
 
   body.project-mode .project-meta-grid,
   body.project-mode .milestone-grid,
   body.project-mode .photo-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 
-  body.project-mode .project-chip {
+  body.project-mode .project-meta-card,
+  body.project-mode .milestone-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  body.project-mode .project-meta-value,
+  body.project-mode .milestone-value {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  body.project-mode .progress-wrap {
+    padding: 12px 14px;
+    margin-top: 14px;
+  }
+
+  body.project-mode .progress-track {
+    height: 12px;
+  }
+
+  body.project-mode .doc-links {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  body.project-mode .doc-link {
     width: 100%;
-    justify-content: center;
+    min-height: 54px;
+    padding: 14px 16px;
+    border-radius: 14px;
   }
 
   body.project-mode .photo-grid img {
     height: auto;
     aspect-ratio: 4 / 3;
+    border-radius: 16px;
+  }
+
+  body.project-mode .photo-gallery-toggle {
+    width: 100%;
+    min-height: 50px;
   }
 }
 
@@ -3366,6 +3293,7 @@ function formatDateOnly(value) {
   const progress = getProgressPercent(job);
   const initialPhotos = photos.slice(0, 6);
   const extraPhotos = photos.slice(6);
+
   const hasAction = Boolean(
     job.customerRequestTitle ||
     job.customerRequestDetails ||
@@ -3373,7 +3301,8 @@ function formatDateOnly(value) {
     job.customerRequestLink
   );
 
-  const heroTitle = escapeHtml(job.projectTitle || job.jobName || job.clientName || 'Project');
+  const title = escapeHtml(job.projectTitle || job.jobName || job.clientName || 'Project');
+  const currentStage = escapeHtml(getProgressLabel(job));
   const latestUpdate = escapeHtml(
     job.customerUpdate || 'We will keep this page updated as your project continues to move forward.'
   );
@@ -3383,7 +3312,6 @@ function formatDateOnly(value) {
   const nextStep = escapeHtml(
     job.customerNextStep || 'Nothing is needed from you right now. We will share the next milestone as soon as it is ready.'
   );
-  const currentStage = escapeHtml(getProgressLabel(job));
 
   const installText = job.installDate
     ? escapeHtml(formatDateOnly(job.installDate))
@@ -3393,25 +3321,46 @@ function formatDateOnly(value) {
     ? escapeHtml(formatDate(job.clientAppointment))
     : '';
 
+  let portalMessage = 'Everything is moving forward and we will continue keeping you updated here.';
+  if (hasAction) {
+    portalMessage = 'We need one item from you to keep everything moving smoothly.';
+  } else if (String(job.status || '').trim() === 'Installed') {
+    portalMessage = 'Your project has been completed. Care information and warranty details are below.';
+  } else if (String(job.status || '').trim() === 'Ready to Install') {
+    portalMessage = 'Your project is entering the final stretch and preparing for installation.';
+  } else if (String(job.status || '').trim() === 'In Finish') {
+    portalMessage = 'Your project is in finishing and moving toward installation.';
+  } else if (String(job.status || '').trim() === 'Ready for Finish') {
+    portalMessage = 'Your project is preparing to move into finishing.';
+  } else if (String(job.status || '').trim() === 'In Shop') {
+    portalMessage = 'Your project is actively in production and taking shape in the shop.';
+  } else if (String(job.status || '').trim() === 'Design') {
+    portalMessage = 'Your project is in design and being refined for production.';
+  }
+
+  const statusChipText = hasAction ? 'Action Needed' : 'Nothing Needed From You';
+
   const projectDocs = [
-    job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : '',
-    job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : '',
-    job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : '',
-    job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''
+    job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">View Estimate</a>` : '',
+    job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">View Cabinet Drawings</a>` : '',
+    job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Open Contract</a>` : '',
+    job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">View Appliance Information</a>` : ''
   ].filter(Boolean).join('');
 
   const careDocs = [
-    job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : '',
-    job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''
+    job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Open Care Instructions</a>` : '',
+    job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Open Warranty Information</a>` : ''
   ].filter(Boolean).join('');
 
   el.innerHTML = `
     <div class="project-card project-hero">
-      <div class="project-eyebrow">Your Custom Cabinet Project</div>
+      <div class="project-eyebrow">Your Project Experience</div>
 
       <div class="project-section-title">
-        <h1>${heroTitle}</h1>
-        <div class="project-muted"></div>
+        <div>
+          <h1>${title}</h1>
+          <div class="project-muted">Premier Cabinet & Wood</div>
+        </div>
       </div>
 
       <div class="project-callout">
@@ -3422,7 +3371,12 @@ function formatDateOnly(value) {
       <div class="project-chip-row">
         <div class="project-chip">Current Stage: ${currentStage}</div>
         ${installText ? `<div class="project-chip">Install Target: ${installText}</div>` : ''}
-        <div class="project-chip">${hasAction ? 'Action Needed' : 'Nothing needed from you'}</div>
+        <div class="project-chip ${hasAction ? 'alert' : ''}">${statusChipText}</div>
+      </div>
+
+      <div class="project-callout" style="margin-top: 14px;">
+        <div class="project-meta-label">Overview</div>
+        <div class="project-lead">${escapeHtml(portalMessage)}</div>
       </div>
 
       <div class="progress-wrap">
@@ -3467,10 +3421,10 @@ function formatDateOnly(value) {
     </div>
 
     ${hasAction ? `
-    <div class="project-card action-needed">
-    <div class="project-section-title">
+      <div class="project-card action-needed">
+        <div class="project-section-title">
           <h2>Action Needed</h2>
-          <div class="project-muted">Items we need from you</div>
+          <div class="project-muted">We need one item from you to keep your project moving</div>
         </div>
 
         ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
@@ -3490,7 +3444,7 @@ function formatDateOnly(value) {
       <div class="project-card">
         <div class="project-section-title">
           <h2>Your Project Documents</h2>
-          <div class="project-muted">Everything important in one place</div>
+          <div class="project-muted">Important information in one place</div>
         </div>
 
         <div class="doc-links">
@@ -3584,7 +3538,6 @@ function formatDateOnly(value) {
     </div>
   `;
 }
-
     function populateAdminFilters() {
       const statusFilter = $('adminStatusFilter');
       if (!statusFilter) return;
