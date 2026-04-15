@@ -760,21 +760,19 @@
     }
 
     @media (max-width: 1100px) {
-      .tv-top-row,
-      .admin-toolbar,
-      .admin-summary,
-      #priorityNow,
-      #tvIssuesTop,
-      .tv-grid,
-      .photo-grid {
-        grid-template-columns: 1fr;
-      }
+  .admin-toolbar,
+  .admin-summary,
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
 
-      body.tv-mode {
-        overflow: auto;
-        height: auto;
-      }
-    }
+  body:not(.tv-mode) .tv-top-row,
+  body:not(.tv-mode) #priorityNow,
+  body:not(.tv-mode) #tvIssuesTop,
+  body:not(.tv-mode) .tv-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
     @media (max-width: 900px) {
       .grid {
@@ -2780,11 +2778,8 @@ body.project-mode .photo-gallery-toggle {
     }
 
     function getMaxItemsPerColumn() {
-      const height = window.innerHeight || 900;
-      if (height < 760) return 2;
-      if (height < 940) return 3;
-      return 4;
-    }
+  return 5;
+}
 
     function renderTvIssues(sortedJobs) {
       const issuesEl = $('tvIssuesTop');
