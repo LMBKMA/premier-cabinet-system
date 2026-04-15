@@ -2934,134 +2934,235 @@ function formatDateOnly(value) {
     }
 
     function renderProject(job) {
-      const el = $('projectContent');
+  const el = $('projectContent');
 
-      if (!job) {
-        el.innerHTML = '<div class="project-card"><h2>Project not found.</h2></div>';
-        return;
-      }
+  if (!job) {
+    el.innerHTML = '<div class="project-card"><h2>Project not found.</h2></div>';
+    return;
+  }
 
-      const hasAction = job.customerRequestTitle || job.customerRequestDetails || job.customerRequestStatus || job.customerRequestLink;
+  const photos = photoList(job.photoLinks);
+  const progress = getProgressPercent(job);
+  const initialPhotos = photos.slice(0, 6);
+  const extraPhotos = photos.slice(6);
+  const hasAction = Boolean(
+    job.customerRequestTitle ||
+    job.customerRequestDetails ||
+    job.customerRequestStatus ||
+    job.customerRequestLink
+  );
 
-      const photos = photoList(job.photoLinks);
-      const progress = getProgressPercent(job);
-      const initialPhotos = photos.slice(0, 6);
-      const extraPhotos = photos.slice(6);
+  const heroTitle = escapeHtml(job.projectTitle || job.jobName || job.clientName || 'Project');
+  const latestUpdate = escapeHtml(
+    job.customerUpdate || 'We will keep this page updated as your project continues to move forward.'
+  );
+  const currentStatus = escapeHtml(
+    job.customerStatus || 'Your project is actively moving through the current phase.'
+  );
+  const nextStep = escapeHtml(
+    job.customerNextStep || 'Nothing is needed from you right now. We will share the next milestone as soon as it is ready.'
+  );
+  const currentStage = escapeHtml(getProgressLabel(job));
 
-      el.innerHTML = `
-        <div class="project-card">
-          <div class="project-hero">
-            <div>
-              <h1>${escapeHtml(job.projectTitle || job.jobName || job.clientName || 'Project')}</h1>
-              ${job.customerUpdate ? `<div class="section"><strong>Latest Update:</strong> ${escapeHtml(job.customerUpdate)}</div>` : ''}
-            </div>
+  const installText = job.installDate
+    ? escapeHtml(formatDateOnly(job.installDate))
+    : '';
 
-            ${hasAction ? `
-              <div class="project-meta-card" style="border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06);">
-                <div class="project-meta-label">Action Needed</div>
-                ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
-                ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
-                ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
-                ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
-                <a class="doc-link" style="margin-top:10px; display:inline-block; font-weight:600;" href="mailto:info@premiercabinetandwood.com?subject=Project%20Update%20for%20${encodeURIComponent(job.projectTitle || job.jobName || '')}">
-                  Send Requested Information
-                </a>
-              </div>
-            ` : ''}
+  const appointmentText = job.clientAppointment
+    ? escapeHtml(formatDate(job.clientAppointment))
+    : '';
 
-            <div class="project-meta-grid">
-              <div class="project-meta-card">
-                <div class="project-meta-label">What’s happening now</div>
-                <div class="project-meta-value">${escapeHtml(job.customerStatus || 'We are actively moving your project through the current phase.')}</div>
-              </div>
+  const projectDocs = [
+    job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : '',
+    job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : '',
+    job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : '',
+    job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''
+  ].filter(Boolean).join('');
 
-              <div class="project-meta-card">
-                <div class="project-meta-label">What’s next</div>
-                <div class="project-meta-value">${escapeHtml(job.customerNextStep || 'We will share the next milestone as soon as your project is ready to move forward.')}</div>
-              </div>
-            </div>
+  const careDocs = [
+    job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : '',
+    job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''
+  ].filter(Boolean).join('');
 
-            <div class="project-meta-card" style="margin-top:10px;">
-              <div class="project-meta-label">Current Phase</div>
-              <div class="project-meta-value">${escapeHtml(getProgressLabel(job))}</div>
-            </div>
+  el.innerHTML = `
+    <div class="project-card project-hero">
+      <div class="project-eyebrow">Private Client Portal</div>
 
-            ${(job.clientAppointment || job.installDate) ? `
-              <div class="milestone-grid">
-                ${job.clientAppointment ? `
-                  <div class="milestone-card">
-                    <div class="milestone-label">Appointment</div>
-                    <div class="milestone-value">${escapeHtml(formatDate(job.clientAppointment))}</div>
-                  </div>
-                ` : ''}
+      <div class="project-section-title">
+        <h1>${heroTitle}</h1>
+        <div class="project-muted">Premier Cabinet & Wood</div>
+      </div>
 
-                ${job.installDate ? `
-                  <div class="milestone-card">
-                    <div class="milestone-label">Install Target</div>
-                    <div class="milestone-value">${escapeHtml(toInputDate(job.installDate) ? formatDate(toInputDate(job.installDate)) : formatDate(job.installDate))}</div>
-                  </div>
-                ` : ''}
-              </div>
-            ` : ''}
+      <div class="project-callout">
+        <div class="project-meta-label">Latest Update</div>
+        <div class="project-lead">${latestUpdate}</div>
+      </div>
 
-            <div class="progress-wrap">
-              <div class="progress-head">
-                <div class="progress-label">Project Progress</div>
-                <div class="progress-value">${progress}% · ${escapeHtml(getProgressLabel(job))}</div>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" style="width: ${progress}%"></div>
-              </div>
-            </div>
-          </div>
+      <div class="project-chip-row">
+        <div class="project-chip">Current Stage: ${currentStage}</div>
+        ${installText ? `<div class="project-chip">Install Target: ${installText}</div>` : ''}
+        <div class="project-chip">${hasAction ? 'Action Needed' : 'No Open Requests'}</div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-head">
+          <div class="progress-label">Project Progress</div>
+          <div class="progress-value">${progress}% complete</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: ${progress}%"></div>
+        </div>
+      </div>
+
+      <div class="project-meta-grid">
+        <div class="project-meta-card">
+          <div class="project-meta-label">What’s Happening Now</div>
+          <div class="project-meta-value">${currentStatus}</div>
         </div>
 
-        ${!hasAction ? `
-        <div class="project-card">
+        <div class="project-meta-card">
+          <div class="project-meta-label">What’s Next</div>
+          <div class="project-meta-value">${nextStep}</div>
+        </div>
+      </div>
+
+      ${(appointmentText || installText) ? `
+        <div class="milestone-grid">
+          ${appointmentText ? `
+            <div class="milestone-card">
+              <div class="milestone-label">Appointment</div>
+              <div class="milestone-value">${appointmentText}</div>
+            </div>
+          ` : ''}
+
+          ${installText ? `
+            <div class="milestone-card">
+              <div class="milestone-label">Install Target</div>
+              <div class="milestone-value">${installText}</div>
+            </div>
+          ` : ''}
+        </div>
+      ` : ''}
+    </div>
+
+    ${hasAction ? `
+      <div class="project-card">
+        <div class="project-section-title">
           <h2>Action Needed</h2>
-          <div class="section">You are all set right now. Nothing is needed from you at the moment.</div>
-        </div>
-        ` : ''}
-
-        <div class="project-card">
-          <h2>Project Documents</h2>
-          <div class="doc-links">
-            ${job.estimateLink ? `<a class="doc-link" href="${escapeHtml(job.estimateLink)}" target="_blank">Estimate</a>` : ''}
-            ${job.drawingsLink ? `<a class="doc-link" href="${escapeHtml(job.drawingsLink)}" target="_blank">Cabinet Drawings</a>` : ''}
-            ${job.contractLink ? `<a class="doc-link" href="${escapeHtml(job.contractLink)}" target="_blank">Contract</a>` : ''}
-            ${job.appliancesLink ? `<a class="doc-link" href="${escapeHtml(job.appliancesLink)}" target="_blank">Appliances</a>` : ''}
-            ${!job.estimateLink && !job.drawingsLink && !job.contractLink && !job.appliancesLink ? '<div class="section">No project documents yet.</div>' : ''}
-          </div>
+          <div class="project-muted">Items we need from you</div>
         </div>
 
-        
-        <div class="project-card">
+        ${job.customerRequestTitle ? `<div class="section"><strong>${escapeHtml(job.customerRequestTitle)}</strong></div>` : ''}
+        ${job.customerRequestDetails ? `<div class="section">${escapeHtml(job.customerRequestDetails)}</div>` : ''}
+        ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
+
+        <div class="doc-links">
+          ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
+          <a class="doc-link" href="mailto:info@premiercabinetandwood.com?subject=Project%20Update%20for%20${encodeURIComponent(job.projectTitle || job.jobName || '')}">
+            Contact Premier Cabinet & Wood
+          </a>
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="project-stack">
+      <div class="project-card">
+        <div class="project-section-title">
+          <h2>Your Project Documents</h2>
+          <div class="project-muted">Everything important in one place</div>
+        </div>
+
+        <div class="doc-links">
+          ${projectDocs || '<div class="section">Documents will appear here as they are added to your project.</div>'}
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-section-title">
           <h2>Care & Warranty</h2>
-          <div class="doc-links">
-            ${job.careInstructionsLink ? `<a class="doc-link" href="${escapeHtml(job.careInstructionsLink)}" target="_blank">Care Instructions</a>` : ''}
-            ${job.warrantyLink ? `<a class="doc-link" href="${escapeHtml(job.warrantyLink)}" target="_blank">Warranty Information</a>` : ''}
-            ${!job.careInstructionsLink && !job.warrantyLink ? '<div class="section">No care or warranty documents added yet.</div>' : ''}
+          <div class="project-muted">Helpful information for after installation</div>
+        </div>
+
+        <div class="doc-links">
+          ${careDocs || '<div class="section">Care and warranty information will appear here when available.</div>'}
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-section-title">
+          <h2>Progress Gallery</h2>
+          <div class="project-muted">
+            ${photos.length ? `${photos.length} photo${photos.length === 1 ? '' : 's'} available` : 'Photos will appear here as your project progresses'}
           </div>
         </div>
 
-        <div class="project-card">
-          <h2>Progress Photos</h2>
-          ${
-            photos.length
-              ? `
-                <div class="photo-grid">
-                  ${initialPhotos.map(raw => {
+        ${
+          photos.length
+            ? `
+              <div class="photo-grid">
+                ${initialPhotos.map(raw => {
+                  const normalized = normalizePhotoLink(raw);
+                  const href = isIcloudPhotoLink(raw) ? raw : normalized;
+                  const imageSrc = isIcloudPhotoLink(raw) ? '' : normalized;
+
+                  if (isIcloudPhotoLink(raw)) {
+                    return `
+                      <a class="doc-link" href="${escapeHtml(href)}" target="_blank">
+                        Open iCloud Photo
+                      </a>
+                    `;
+                  }
+
+                  return `
+                    <a href="${escapeHtml(href)}" target="_blank">
+                      <img src="${escapeHtml(imageSrc)}" alt="Project photo" loading="lazy">
+                    </a>
+                  `;
+                }).join('')}
+              </div>
+
+              ${extraPhotos.length ? `
+                <div id="extraPhotos" class="photo-grid photo-grid-extra hidden" style="margin-top:10px;">
+                  ${extraPhotos.map(raw => {
                     const normalized = normalizePhotoLink(raw);
-                    return `<a href="javascript:void(0)"><img src="${escapeHtml(normalized)}" onclick="openLightbox('${escapeHtml(normalized)}')"></a>`;
+                    const href = isIcloudPhotoLink(raw) ? raw : normalized;
+                    const imageSrc = isIcloudPhotoLink(raw) ? '' : normalized;
+
+                    if (isIcloudPhotoLink(raw)) {
+                      return `
+                        <a class="doc-link" href="${escapeHtml(href)}" target="_blank">
+                          Open iCloud Photo
+                        </a>
+                      `;
+                    }
+
+                    return `
+                      <a href="${escapeHtml(href)}" target="_blank">
+                        <img src="${escapeHtml(imageSrc)}" alt="Project photo" loading="lazy">
+                      </a>
+                    `;
                   }).join('')}
                 </div>
-              `
-              : '<div class="section">No photos added yet.</div>'
-          }
-        </div>
-      `;
-    }
 
+                <div class="photo-gallery-actions">
+                  <button
+                    id="morePhotosBtn"
+                    class="photo-gallery-toggle"
+                    type="button"
+                    onclick="toggleMorePhotos()"
+                    data-more-label="See more photos"
+                  >
+                    See more photos
+                  </button>
+                </div>
+              ` : ''}
+            `
+            : '<div class="section">No photos have been added yet.</div>'
+        }
+      </div>
+    </div>
+  `;
+}
 
     function populateAdminFilters() {
       const statusFilter = $('adminStatusFilter');
