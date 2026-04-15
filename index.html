@@ -1463,6 +1463,124 @@ body.project-mode .section {
       display: none;
     }
 
+@media (max-width: 700px) {
+  body.project-mode {
+    padding: 10px;
+  }
+
+  body.project-mode .wrap {
+    max-width: none;
+  }
+
+  body.project-mode .brand {
+    margin-bottom: 12px;
+  }
+
+  body.project-mode .brand img {
+    height: 54px;
+    max-width: 180px;
+  }
+
+  body.project-mode .project-hero,
+  body.project-mode .project-card {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  body.project-mode .project-section-title {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  body.project-mode .project-section-title h1 {
+    font-size: 30px;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+
+  body.project-mode .project-section-title h2 {
+    font-size: 22px;
+  }
+
+  body.project-mode .project-muted {
+    font-size: 13px;
+  }
+
+  body.project-mode .project-lead {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  body.project-mode .project-chip-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  body.project-mode .project-chip {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 14px;
+  }
+
+  body.project-mode .project-meta-grid,
+  body.project-mode .milestone-grid,
+  body.project-mode .photo-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  body.project-mode .project-meta-card,
+  body.project-mode .milestone-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  body.project-mode .project-meta-value,
+  body.project-mode .milestone-value {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .progress-wrap {
+    padding: 12px 14px;
+    margin-top: 14px;
+  }
+
+  .progress-track {
+    height: 12px;
+  }
+
+  body.project-mode .doc-links {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  body.project-mode .doc-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 54px;
+    padding: 14px 16px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  body.project-mode .photo-grid img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+  }
+
+  .photo-gallery-toggle {
+    width: 100%;
+    min-height: 50px;
+  }
+}
+    
     @media (max-width: 700px) {
       .project-card {
         padding: 14px;
