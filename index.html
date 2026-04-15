@@ -2741,25 +2741,41 @@ body.project-mode .photo-gallery-toggle {
     }
 
     function renderPriorityNow(sortedJobs) {
-      const el = $('priorityNow');
+  const el = $('priorityNow');
 
-      const priorityJobs = sortedJobs.filter(job => {
-        const priority = getEffectivePriority(job);
-        const status = String(job.status || '').trim();
+  const priorityJobs = sortedJobs.filter(job => {
+    const manual = String(job.manualPriority || 'None').trim();
+    const status = String(job.status || '').trim();
 
-        if (priority === 'Normal') return false;
-        if (status === 'Measure') return false;
-        if (status === 'Design') return false;
-        if (status === 'Installed') return false;
+    if (manual === 'None') return false;
+    if (status === 'Measure') return false;
+    if (status === 'Design') return false;
+    if (status === 'Installed') return false;
 
-        return true;
-      }).slice(0, 4);
+    return true;
+  }).slice(0, 4);
 
-      if (!priorityJobs.length) {
-        el.innerHTML = '<div class="job">No urgent production items right now.</div>';
-        return;
-      }
+  if (!priorityJobs.length) {
+    el.innerHTML = '<div class="job">No manually flagged production priorities right now.</div>';
+    return;
+  }
 
+  el.innerHTML = priorityJobs.map(job => {
+    const priority = String(job.manualPriority || 'None').trim();
+    const reason =
+      String(job.priorityReason || '').trim() ||
+      String(job.issues || '').trim() ||
+      '';
+
+    return `
+      <div class="priority-card priority-mini">
+        <div class="priority-badge ${priorityClass(priority)}">${escapeHtml(priority)}</div>
+        <div class="title">${escapeHtml(job.jobName)}</div>
+        ${reason ? `<div class="section issue">${escapeHtml(reason)}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
       el.innerHTML = priorityJobs.map(job => {
         const priority = getEffectivePriority(job);
         const reason =
