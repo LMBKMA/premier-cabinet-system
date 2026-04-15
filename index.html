@@ -534,13 +534,14 @@
     }
 
     body.tv-mode .tv-top-row {
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin-bottom: 0;
-  flex: 0 0 auto;
-}
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 10px;
+      margin-bottom: 0;
+      flex: 0 0 auto;
+    }
+
     body.tv-mode .tv-grid {
-      grid-template-columns: 2.5fr 1fr;
+      grid-template-columns: 2fr 1fr;
       gap: 10px;
       flex: 1 1 auto;
       min-height: 0;
@@ -759,19 +760,21 @@
     }
 
     @media (max-width: 1100px) {
-  .admin-toolbar,
-  .admin-summary,
-  .photo-grid {
-    grid-template-columns: 1fr;
-  }
+      .tv-top-row,
+      .admin-toolbar,
+      .admin-summary,
+      #priorityNow,
+      #tvIssuesTop,
+      .tv-grid,
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
 
-  body:not(.tv-mode) .tv-top-row,
-  body:not(.tv-mode) #priorityNow,
-  body:not(.tv-mode) #tvIssuesTop,
-  body:not(.tv-mode) .tv-grid {
-    grid-template-columns: 1fr;
-  }
-}
+      body.tv-mode {
+        overflow: auto;
+        height: auto;
+      }
+    }
 
     @media (max-width: 900px) {
       .grid {
@@ -842,56 +845,6 @@
     body.tv-mode .section {
       color: #e5dfd8;
     }
-
-    body.tv-mode .tv-top-row .card,
-body.tv-mode .tv-grid .card {
-  padding: 10px;
-}
-
-body.tv-mode .job,
-body.tv-mode .priority-card {
-  padding: 10px;
-  margin-bottom: 6px;
-}
-
-body.tv-mode h2,
-body.tv-mode h3 {
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-
-body.tv-mode .title {
-  font-size: 15px;
-  margin-bottom: 4px;
-  line-height: 1.15;
-}
-
-body.tv-mode .stage {
-  font-size: 11px;
-  margin-bottom: 4px;
-}
-
-body.tv-mode .section {
-  font-size: 12px;
-  line-height: 1.2;
-  margin-top: 2px;
-}
-
-body.tv-mode .priority-badge {
-  font-size: 10px;
-  padding: 4px 8px;
-  margin-bottom: 5px;
-}
-
-    body.tv-mode .tv-top-row {
-  align-items: start;
-}
-
-    body.tv-mode .tv-job-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
 
 /* =========================
    PROJECT PAGE / CLIENT PORTAL
@@ -1954,7 +1907,11 @@ body.project-mode .photo-gallery-toggle {
             <div id="priorityNow"></div>
           </div>
 
-          
+          <div class="card">
+            <h2>Issues</h2>
+            <div id="tvIssuesTop"></div>
+          </div>
+        </div>
 
         <div class="tv-grid">
           <div class="card">
@@ -2786,45 +2743,48 @@ body.project-mode .photo-gallery-toggle {
     }
 
     function renderPriorityNow(sortedJobs) {
-  const el = $('priorityNow');
+      const el = $('priorityNow');
 
-  const priorityJobs = sortedJobs.filter(job => {
-    const manual = String(job.manualPriority || 'None').trim();
-    const status = String(job.status || '').trim();
+      const priorityJobs = sortedJobs.filter(job => {
+        const priority = getEffectivePriority(job);
+        const status = String(job.status || '').trim();
 
-    if (manual === 'None') return false;
-    if (status === 'Measure') return false;
-    if (status === 'Design') return false;
-    if (status === 'Installed') return false;
+        if (priority === 'Normal') return false;
+        if (status === 'Measure') return false;
+        if (status === 'Design') return false;
+        if (status === 'Installed') return false;
 
-    return true;
-  }).slice(0, 4);
+        return true;
+      }).slice(0, 4);
 
-  if (!priorityJobs.length) {
-    el.innerHTML = '<div class="job">No manually flagged production priorities right now.</div>';
-    return;
-  }
+      if (!priorityJobs.length) {
+        el.innerHTML = '<div class="job">No urgent production items right now.</div>';
+        return;
+      }
 
-  el.innerHTML = priorityJobs.map(job => {
-    const priority = String(job.manualPriority || 'None').trim();
-    const reason =
-      String(job.priorityReason || '').trim() ||
-      String(job.issues || '').trim() ||
-      '';
+      el.innerHTML = priorityJobs.map(job => {
+        const priority = getEffectivePriority(job);
+        const reason =
+          String(job.priorityReason || '').trim() ||
+          String(job.issues || '').trim() ||
+          autoPriorityReason(job);
 
-    return `
-      <div class="priority-card priority-mini">
-        <div class="priority-badge ${priorityClass(priority)}">${escapeHtml(priority)}</div>
-        <div class="title">${escapeHtml(job.jobName)}</div>
-        ${reason ? `<div class="section issue">${escapeHtml(reason)}</div>` : ''}
-      </div>
-    `;
-  }).join('');
-}
+        return `
+          <div class="priority-card priority-mini">
+            <div class="priority-badge ${priorityClass(priority)}">${escapeHtml(priority)}</div>
+            <div class="title">${escapeHtml(job.jobName)}</div>
+            ${reason ? `<div class="section issue">${escapeHtml(reason)}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
 
     function getMaxItemsPerColumn() {
-  return 5;
-}
+      const height = window.innerHeight || 900;
+      if (height < 760) return 2;
+      if (height < 940) return 3;
+      return 4;
+    }
 
     function renderTvIssues(sortedJobs) {
       const issuesEl = $('tvIssuesTop');
@@ -2938,33 +2898,28 @@ body.project-mode .photo-gallery-toggle {
       }
     }
 
-    function renderTvColumn(id, jobs, emptyText, maxItems, footerId, isGrid = false) {
-  const el = $(id);
-  const footer = $(footerId);
+    function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
+      const container = $(targetId);
+      const footer = $(footerId);
 
-  if (!jobs.length) {
-    el.innerHTML = `<div class="job">${emptyText}</div>`;
-    if (footer) footer.textContent = '';
-    return;
-  }
+      footer.textContent = '';
 
-  const visible = jobs.slice(0, maxItems);
-  const hiddenCount = jobs.length - visible.length;
+      if (!jobsForColumn.length) {
+        container.innerHTML = `<div class="job">${emptyText}</div>`;
+        return;
+      }
 
-  el.innerHTML = `
-    <div class="${isGrid ? 'tv-job-grid' : ''}">
-      ${visible.map(job => `
-        <div class="job">
-          ${buildInternalCard(job, true)}
-        </div>
-      `).join('')}
-    </div>
-  `;
+      const visibleJobs = jobsForColumn.slice(0, maxItems);
+      const hiddenCount = Math.max(0, jobsForColumn.length - visibleJobs.length);
 
-  if (footer) {
-    footer.textContent = hiddenCount > 0 ? `${hiddenCount} more not shown` : '';
-  }
-}
+      container.innerHTML = visibleJobs
+        .map(job => `<div class="job">${buildInternalCard(job, true)}</div>`)
+        .join('');
+
+      if (hiddenCount > 0) {
+        footer.textContent = `${hiddenCount} more not shown`;
+      }
+    }
 
     function formatDateOnly(value) {
   const date = parseDateValue(value);
@@ -2982,6 +2937,7 @@ body.project-mode .photo-gallery-toggle {
   const maxItems = getMaxItemsPerColumn();
 
   renderPriorityNow(sorted);
+  renderTvIssues(sorted);
 
   const shopJobs = sorted.filter(job =>
     job.status === 'In Shop' || job.status === 'Ready to Install'
@@ -2999,8 +2955,8 @@ body.project-mode .photo-gallery-toggle {
     return days !== null && days >= 0 && days <= 7;
   });
 
-renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter', true);
-      
+  renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
+
   const finishContainer = $('tvFinish');
   const finishFooter = $('tvFinishFooter');
 
