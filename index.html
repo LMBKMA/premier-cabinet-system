@@ -2573,20 +2573,99 @@
       }
     }
 
+    function formatDateOnly(value) {
+  const date = parseDateValue(value);
+  if (!date) return value || '—';
+
+  return date.toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+}
+    
     function renderTv() {
-      const sorted = getSortedJobs();
-      const maxItems = getMaxItemsPerColumn();
+  const sorted = getSortedJobs();
+  const maxItems = getMaxItemsPerColumn();
 
-      renderPriorityNow(sorted);
-      renderTvIssues(sorted);
+  renderPriorityNow(sorted);
+  renderTvIssues(sorted);
 
-      const shopJobs = sorted.filter(job => job.status === 'In Shop' || job.status === 'Ready to Install');
-      const finishJobs = sorted.filter(job => job.status === 'Ready for Finish' || job.status === 'In Finish');
+  const shopJobs = sorted.filter(job =>
+    job.status === 'In Shop' || job.status === 'Ready to Install'
+  );
 
-      renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
-      renderTvColumn('tvFinish', finishJobs, 'No finish jobs.', maxItems, 'tvFinishFooter');
-    }
+  const activeFinishJobs = sorted.filter(job =>
+    job.status === 'Ready for Finish' || job.status === 'In Finish'
+  );
 
+  const upcomingFinishJobs = sorted.filter(job => {
+    if (job.status === 'Ready for Finish' || job.status === 'In Finish') return false;
+    if (!job.finishStartDate) return false;
+
+    const days = daysUntil(job.finishStartDate);
+    return days !== null && days >= 0 && days <= 7;
+  });
+
+  renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
+
+  const finishContainer = $('tvFinish');
+  const finishFooter = $('tvFinishFooter');
+
+  if (!finishContainer || !finishFooter) return;
+
+  finishFooter.textContent = '';
+
+  if (!activeFinishJobs.length && !upcomingFinishJobs.length) {
+    finishContainer.innerHTML = `<div class="job">No finish jobs.</div>`;
+    return;
+  }
+
+  const visibleActive = activeFinishJobs.slice(0, maxItems);
+  const hiddenActive = Math.max(0, activeFinishJobs.length - visibleActive.length);
+
+  const remainingSlots = Math.max(0, maxItems - visibleActive.length);
+  const visibleUpcoming = upcomingFinishJobs.slice(0, remainingSlots);
+  const hiddenUpcoming = Math.max(0, upcomingFinishJobs.length - visibleUpcoming.length);
+
+  finishContainer.innerHTML = `
+    ${visibleActive.length ? `
+      <div class="section" style="margin-top:0; margin-bottom:8px; font-weight:700; color:var(--text);">
+        Active Finish
+      </div>
+      ${visibleActive.map(job => `
+        <div class="job">
+          ${buildPriorityBadge(job)}
+          <div class="title">${escapeHtml(job.jobName)}</div>
+          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+          ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>` : ''}
+          ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
+          ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
+        </div>
+      `).join('')}
+    ` : ''}
+
+    ${visibleUpcoming.length ? `
+      <div class="section" style="margin-top:${visibleActive.length ? '10px' : '0'}; margin-bottom:8px; font-weight:700; color:var(--muted);">
+        Upcoming Finish
+      </div>
+      ${visibleUpcoming.map(job => `
+        <div class="job">
+          ${buildPriorityBadge(job)}
+          <div class="title">${escapeHtml(job.jobName)}</div>
+          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+          <div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>
+          ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
+        </div>
+      `).join('')}
+    ` : ''}
+  `;
+
+  const hiddenTotal = hiddenActive + hiddenUpcoming;
+  if (hiddenTotal > 0) {
+    finishFooter.textContent = `${hiddenTotal} more not shown`;
+  }
+}
     function renderAdminSummary(filteredJobs) {
       $('adminSummary').innerHTML = `
         <div class="summary-card">
