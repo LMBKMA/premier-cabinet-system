@@ -2677,29 +2677,64 @@
     }
 
     function renderFinish() {
-      const container = $('finishJobs');
-      const finishJobs = getSortedJobs().filter(job => (
-        job.status === 'Ready for Finish' ||
-        job.status === 'In Finish'
-      ));
+  const container = $('finishJobs');
+  const sortedJobs = getSortedJobs();
 
-      if (!finishJobs.length) {
-        container.innerHTML = '<div class="job">No finish work queued.</div>';
-        return;
-      }
+  const activeFinishJobs = sortedJobs.filter(job => (
+    job.status === 'Ready for Finish' ||
+    job.status === 'In Finish'
+  ));
 
-      container.innerHTML = finishJobs.map(job => `
-        <div class="job">
-          ${buildPriorityBadge(job)}
-          <div class="title">${escapeHtml(job.jobName)}</div>
-          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
-          ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDate(job.finishStartDate))}</div>` : ''}
-          ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDate(job.finishDue))}</div>` : ''}
-          ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
-          ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
-        </div>
-      `).join('');
-    }
+  const upcomingFinishJobs = sortedJobs.filter(job => {
+    if (job.status === 'Ready for Finish' || job.status === 'In Finish') return false;
+    if (!job.finishStartDate) return false;
+
+    const finishStartDays = daysUntil(job.finishStartDate);
+    return finishStartDays !== null && finishStartDays >= 0;
+  });
+
+  if (!activeFinishJobs.length && !upcomingFinishJobs.length) {
+    container.innerHTML = '<div class="job">No finish work queued.</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    ${activeFinishJobs.length ? `
+      <div class="card">
+        <h3>Active Finish Work</h3>
+        ${activeFinishJobs.map(job => `
+          <div class="job">
+            ${buildPriorityBadge(job)}
+            <div class="title">${escapeHtml(job.jobName)}</div>
+            <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+            ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDate(job.finishStartDate))}</div>` : ''}
+            ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDate(job.finishDue))}</div>` : ''}
+            ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
+            ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    ${upcomingFinishJobs.length ? `
+      <div class="card">
+        <h3>Upcoming Finish</h3>
+        ${upcomingFinishJobs.map(job => `
+          <div class="job">
+            ${buildPriorityBadge(job)}
+            <div class="title">${escapeHtml(job.jobName)}</div>
+            <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+            <div class="section">Gets to finish: ${escapeHtml(formatDate(job.finishStartDate))}</div>
+            ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDate(job.finishDue))}</div>` : ''}
+            ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
+            ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+}
+    
 
 
 
