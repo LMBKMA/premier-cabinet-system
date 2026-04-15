@@ -1146,6 +1146,27 @@ body.project-mode .project-lead {
   line-height: 1.6;
 }
 
+    body.project-mode .project-card.action-needed {
+  background: rgba(255, 80, 80, 0.06);
+  border: 1px solid rgba(255, 80, 80, 0.18);
+}
+
+body.project-mode .project-card.action-needed h2 {
+  color: #ffb3b3;
+}
+
+body.project-mode .project-card.action-needed .doc-link.primary {
+  background: linear-gradient(180deg, rgba(255,80,80,0.9), rgba(255,80,80,0.75));
+  border: none;
+  color: white !important;
+  box-shadow: 0 8px 20px rgba(255,80,80,0.25);
+}
+
+body.project-mode .project-card.action-needed .doc-link.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(255,80,80,0.35);
+}
+
 body.project-mode .project-callout {
   border-left: none;
   padding-left: 0;
@@ -3328,8 +3349,8 @@ function formatDateOnly(value) {
     </div>
 
     ${hasAction ? `
-      <div class="project-card">
-        <div class="project-section-title">
+    <div class="project-card action-needed">
+    <div class="project-section-title">
           <h2>Action Needed</h2>
           <div class="project-muted">Items we need from you</div>
         </div>
@@ -3339,7 +3360,7 @@ function formatDateOnly(value) {
         ${job.customerRequestStatus ? `<div class="section"><strong>Status:</strong> ${escapeHtml(job.customerRequestStatus)}</div>` : ''}
 
         <div class="doc-links">
-          ${job.customerRequestLink ? `<a class="doc-link" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
+          ${job.customerRequestLink ? `<a class="doc-link primary" href="${escapeHtml(job.customerRequestLink)}" target="_blank">Submit Information</a>` : ''}
           <a class="doc-link" href="mailto:info@premiercabinetandwood.com?subject=Project%20Update%20for%20${encodeURIComponent(job.projectTitle || job.jobName || '')}">
             Contact Premier Cabinet & Wood
           </a>
