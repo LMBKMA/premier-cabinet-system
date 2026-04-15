@@ -2869,18 +2869,55 @@ function formatDateOnly(value) {
     }
 
     function getProgressPercent(job) {
-      const status = String(job.status || '').trim();
+  const status = String(job.status || '').trim();
 
-      if (status === 'Measure') return 10;
-      if (status === 'Design') return 25;
-      if (status === 'In Shop') return 55;
-      if (status === 'Ready for Finish') return 65;
-      if (status === 'In Finish') return 78;
-      if (status === 'Ready to Install') return 92;
-      if (status === 'Installed') return 100;
+  if (status === 'Installed') return 100;
 
-      return 0;
+  let base = 0;
+  let bump = 0;
+
+  if (status === 'Measure') {
+    base = 10;
+  } else if (status === 'Design') {
+    base = 25;
+  } else if (status === 'In Shop') {
+    base = 55;
+
+    const finishStartDays = daysUntil(job.finishStartDate);
+    const installDays = daysUntil(job.installDate);
+
+    if (finishStartDays !== null && finishStartDays >= 0 && finishStartDays <= 14) {
+      bump = Math.max(bump, Math.round((14 - finishStartDays) / 2)); // up to +7
     }
+
+    if (installDays !== null && installDays >= 0 && installDays <= 21) {
+      bump = Math.max(bump, Math.round((21 - installDays) / 4)); // up to +5
+    }
+  } else if (status === 'Ready for Finish') {
+    base = 65;
+
+    const finishDueDays = daysUntil(job.finishDue);
+    if (finishDueDays !== null && finishDueDays >= 0 && finishDueDays <= 10) {
+      bump = Math.round((10 - finishDueDays) / 2); // up to +5
+    }
+  } else if (status === 'In Finish') {
+    base = 78;
+
+    const installDays = daysUntil(job.installDate);
+    if (installDays !== null && installDays >= 0 && installDays <= 14) {
+      bump = Math.round((14 - installDays) / 2); // up to +7
+    }
+  } else if (status === 'Ready to Install') {
+    base = 92;
+
+    const installDays = daysUntil(job.installDate);
+    if (installDays !== null && installDays >= 0 && installDays <= 7) {
+      bump = Math.round((7 - installDays) / 2); // up to +4
+    }
+  }
+
+  return Math.min(99, base + bump);
+}
 
     function getProgressLabel(job) {
       return String(job.status || '').trim() || 'Starting';
