@@ -2850,24 +2850,7 @@ function formatDateOnly(value) {
       return 0;
     }
 
-    function renderCustomerStageTracker(job) {
-      const currentIndex = getCustomerStageIndex(job);
-
-      return `
-        <div class="stage-tracker">
-          ${getCustomerStageSteps().map((step, index) => {
-            const isCurrent = index === currentIndex;
-            const isComplete = index < currentIndex || (String(job.status || '').trim() === 'Installed' && index <= currentIndex);
-            return `
-              <div class="stage-step ${isCurrent ? 'current' : ''} ${isComplete ? 'complete' : ''}">
-                <div class="stage-step-label">${step.label}</div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `;
-    }
-
+   
     function getProgressPercent(job) {
   const status = String(job.status || '').trim();
 
