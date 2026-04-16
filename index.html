@@ -1086,6 +1086,155 @@ body.tv-mode .tv-subhead {
     grid-template-columns: 1fr;
   }
 }
+
+    /* =========================
+   FINAL TV MODE OVERRIDES
+   ========================= */
+
+body.tv-mode #tvView.active {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  gap: 10px;
+}
+
+body.tv-mode .tv-top-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 0;
+  flex: 0 0 auto;
+  align-items: start;
+}
+
+body.tv-mode .tv-grid {
+  display: grid;
+  grid-template-columns: 2.4fr 1fr;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-bottom: 0;
+}
+
+body.tv-mode .tv-top-row .card,
+body.tv-mode .tv-grid .card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+body.tv-mode #priorityNow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  align-content: start;
+}
+
+body.tv-mode #tvShop {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  align-content: start;
+  overflow: hidden;
+}
+
+body.tv-mode #tvFinish {
+  display: block;
+  overflow: hidden;
+}
+
+body.tv-mode .job,
+body.tv-mode .priority-card {
+  padding: 10px;
+  margin-bottom: 6px;
+  border-radius: 16px;
+}
+
+body.tv-mode h2,
+body.tv-mode h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+body.tv-mode .title {
+  font-size: 15px;
+  margin-bottom: 4px;
+  line-height: 1.15;
+}
+
+body.tv-mode .stage {
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+body.tv-mode .section {
+  font-size: 12px;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+body.tv-mode .priority-badge {
+  font-size: 10px;
+  padding: 4px 8px;
+  margin-bottom: 5px;
+}
+
+body.tv-mode .column-footer {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 12px;
+}
+
+body.tv-mode .tv-subhead {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+body.tv-mode .tv-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  color: var(--muted-2);
+}
+
+body.tv-mode .tv-task-block,
+body.tv-mode .tv-note-block,
+body.tv-mode .tv-issue-block {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+body.tv-mode .tv-task-block .section {
+  color: #ddd7cf;
+}
+
+body.tv-mode .tv-note-block .section {
+  color: #d8e0e6;
+}
+
+body.tv-mode .tv-issue-block {
+  background: rgba(197, 150, 154, 0.08);
+  border: 1px solid rgba(197, 150, 154, 0.14);
+  border-radius: 10px;
+  padding: 8px;
+}
+
+body.tv-mode .tv-issue-block .tv-label {
+  color: #d9a8ad;
+}
+
+body.tv-mode .tv-issue-block .section {
+  color: #ffd7db;
+  margin-top: 0;
+}
     
 /* =========================
    PROJECT PAGE / CLIENT PORTAL
@@ -2163,7 +2312,6 @@ body.project-mode .photo-gallery-toggle {
     </div>
   </div>
 </div>
-
       
       <div id="finishView" class="view">
         <h2>Finish Board</h2>
@@ -2980,42 +3128,57 @@ body.project-mode .photo-gallery-toggle {
     }
 
     function renderPriorityNow(sortedJobs) {
-      const el = $('priorityNow');
+  const el = $('priorityNow');
 
-      const priorityJobs = sortedJobs.filter(job => {
-        const priority = getEffectivePriority(job);
-        const status = String(job.status || '').trim();
+  const priorityJobs = sortedJobs.filter(job => {
+    const manual = String(job.manualPriority || 'None').trim();
+    const status = String(job.status || '').trim();
+    const installDays = daysUntil(job.installDate);
 
-        if (priority === 'Normal') return false;
-        if (status === 'Measure') return false;
-        if (status === 'Design') return false;
-        if (status === 'Installed') return false;
+    if (status === 'Measure') return false;
+    if (status === 'Design') return false;
+    if (status === 'Installed') return false;
 
-        return true;
-      }).slice(0, 4);
+    const isManualPriority = manual !== 'None';
+    const isInstallSoon = installDays !== null && installDays >= 0 && installDays <= 2;
 
-      if (!priorityJobs.length) {
-        el.innerHTML = '<div class="job">No urgent production items right now.</div>';
-        return;
-      }
+    return isManualPriority || isInstallSoon;
+  }).slice(0, 4);
 
-      el.innerHTML = priorityJobs.map(job => {
-        const priority = getEffectivePriority(job);
-        const reason =
-          String(job.priorityReason || '').trim() ||
-          String(job.issues || '').trim() ||
-          autoPriorityReason(job);
+  if (!priorityJobs.length) {
+    el.innerHTML = '<div class="job">No priority items right now.</div>';
+    return;
+  }
 
-        return `
-          <div class="priority-card priority-mini">
-            <div class="priority-badge ${priorityClass(priority)}">${escapeHtml(priority)}</div>
-            <div class="title">${escapeHtml(job.jobName)}</div>
-            ${reason ? `<div class="section issue">${escapeHtml(reason)}</div>` : ''}
-          </div>
-        `;
-      }).join('');
-    }
+  el.innerHTML = priorityJobs.map(job => {
+    const manual = String(job.manualPriority || 'None').trim();
+    const installDays = daysUntil(job.installDate);
 
+    const label = manual !== 'None'
+      ? manual
+      : (installDays === 0
+          ? 'Install Today'
+          : installDays === 1
+            ? 'Install Tomorrow'
+            : 'Install Soon');
+
+    const badgeClass = manual !== 'None'
+      ? priorityClass(manual)
+      : 'priority-important';
+
+    const reason = manual !== 'None'
+      ? (String(job.priorityReason || '').trim() || 'Manually prioritized')
+      : (job.installDate ? `Install: ${formatDateOnly(job.installDate)}` : 'Install coming up');
+
+    return `
+      <div class="priority-card priority-mini">
+        <div class="priority-badge ${badgeClass}">${escapeHtml(label)}</div>
+        <div class="title">${escapeHtml(job.jobName)}</div>
+        <div class="section">${escapeHtml(reason)}</div>
+      </div>
+    `;
+  }).join('');
+}
     function getMaxItemsPerColumn() {
       const height = window.innerHeight || 900;
       if (height < 760) return 2;
@@ -3135,6 +3298,49 @@ body.project-mode .photo-gallery-toggle {
       }
     }
 
+    function buildTvShopCard(job) {
+  return `
+    ${buildPriorityBadge(job)}
+    <div class="title">${escapeHtml(job.jobName)}</div>
+    <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+    ${job.finishStartDate
+      ? `<div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>`
+      : (job.installDate
+          ? `<div class="section">Install: ${escapeHtml(formatDateOnly(job.installDate))}</div>`
+          : ''
+        )
+    }
+    ${job.shop ? `
+      <div class="tv-task-block">
+        <div class="tv-label">Shop Tasks</div>
+        <div class="section">${escapeHtml(job.shop)}</div>
+      </div>
+    ` : ''}
+    ${job.issues ? `
+      <div class="tv-issue-block">
+        <div class="tv-label">Issues</div>
+        <div class="section issue">${escapeHtml(job.issues)}</div>
+      </div>
+    ` : ''}
+  `;
+}
+
+function buildTvFinishCard(job) {
+  return `
+    ${buildPriorityBadge(job)}
+    <div class="title">${escapeHtml(job.jobName)}</div>
+    <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+    ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>` : ''}
+    ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
+    ${job.notes ? `
+      <div class="tv-note-block">
+        <div class="tv-label">Notes</div>
+        <div class="section">${escapeHtml(job.notes)}</div>
+      </div>
+    ` : ''}
+  `;
+}
+    
     function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
   const container = $(targetId);
   const footer = $(footerId);
@@ -3152,7 +3358,7 @@ body.project-mode .photo-gallery-toggle {
 
   container.innerHTML = visibleJobs.map(job => `
     <div class="job">
-      ${buildInternalCard(job, true)}
+      ${targetId === 'tvShop' ? buildTvShopCard(job) : buildInternalCard(job, true)}
     </div>
   `).join('');
 
@@ -3178,8 +3384,8 @@ body.project-mode .photo-gallery-toggle {
   renderPriorityNow(sorted);
 
   const shopJobs = sorted.filter(job =>
-  job.status === 'In Shop'
-);
+    job.status === 'In Shop'
+  );
 
   const activeFinishJobs = sorted.filter(job =>
     job.status === 'Ready for Finish' || job.status === 'In Finish'
@@ -3220,12 +3426,7 @@ body.project-mode .photo-gallery-toggle {
       <div class="section tv-subhead">Active Finish</div>
       ${visibleActive.map(job => `
         <div class="job">
-          ${buildPriorityBadge(job)}
-          <div class="title">${escapeHtml(job.jobName)}</div>
-          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
-          ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>` : ''}
-          ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
-          ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
+          ${buildTvFinishCard(job)}
         </div>
       `).join('')}
     ` : ''}
@@ -3234,12 +3435,7 @@ body.project-mode .photo-gallery-toggle {
       <div class="section tv-subhead" style="margin-top:${visibleActive.length ? '10px' : '0'};">Upcoming Finish</div>
       ${visibleUpcoming.map(job => `
         <div class="job">
-          ${buildPriorityBadge(job)}
-          <div class="title">${escapeHtml(job.jobName)}</div>
-          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
-          <div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>
-          ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
-          ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
+          ${buildTvFinishCard(job)}
         </div>
       `).join('')}
     ` : ''}
