@@ -1235,6 +1235,64 @@ body.tv-mode .tv-issue-block .section {
   color: #ffd7db;
   margin-top: 0;
 }
+
+/* =========================
+   DENSE SHOP MODE
+   Compress cards unless content needs space
+   ========================= */
+
+body.tv-mode #tvShop {
+  align-content: start;
+  grid-auto-rows: min-content;
+}
+
+body.tv-mode #tvShop .job {
+  align-self: start;
+  min-height: 0;
+}
+
+body.tv-mode #tvShop.dense .job {
+  padding: 7px;
+}
+
+body.tv-mode #tvShop.dense .title {
+  font-size: 13px;
+  margin-bottom: 2px;
+  line-height: 1.1;
+}
+
+body.tv-mode #tvShop.dense .stage {
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+body.tv-mode #tvShop.dense .section {
+  font-size: 10px;
+  line-height: 1.1;
+  margin-top: 1px;
+}
+
+body.tv-mode #tvShop.dense .priority-badge {
+  font-size: 9px;
+  padding: 3px 6px;
+  margin-bottom: 3px;
+}
+
+body.tv-mode #tvShop.dense .tv-label {
+  font-size: 9px;
+  margin-bottom: 2px;
+}
+
+body.tv-mode #tvShop.dense .tv-task-block,
+body.tv-mode #tvShop.dense .tv-issue-block {
+  margin-top: 4px;
+  padding-top: 4px;
+}
+
+body.tv-mode #tvShop.dense .tv-issue-block {
+  padding: 6px;
+  border-radius: 8px;
+}
     
 /* =========================
    PROJECT PAGE / CLIENT PORTAL
@@ -3400,7 +3458,10 @@ function buildTvFinishCard(job) {
   });
 
   renderTvColumn('tvShop', shopJobs, 'No shop jobs.', maxItems, 'tvShopFooter');
-
+const shopEl = $('tvShop');
+if (shopEl) {
+  shopEl.classList.toggle('dense', shopJobs.length > 3);
+}
   const finishContainer = $('tvFinish');
   const finishFooter = $('tvFinishFooter');
 
