@@ -2503,19 +2503,19 @@ body.project-mode .photo-gallery-toggle {
     }
 
     function buildInternalCard(job, includeInstall = true) {
-      return `
-        ${buildPriorityBadge(job)}
-        <div class="title">${escapeHtml(job.jobName)}</div>
-        <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
-        ${job.clientAppointment ? `<div class="section">Client appointment: ${escapeHtml(formatDate(job.clientAppointment))}</div>` : ''}
-        ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDate(job.finishStartDate))}</div>` : ''}
-        ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDate(job.finishDue))}</div>` : ''}
-        ${includeInstall && job.installDate ? `<div class="section">Install: ${escapeHtml(formatDate(job.installDate))}</div>` : ''}
-        ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
-        ${job.shop ? `<div class="section">Shop: ${escapeHtml(job.shop)}</div>` : ''}
-        ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
-      `;
-    }
+  return `
+    ${buildPriorityBadge(job)}
+    <div class="title">${escapeHtml(job.jobName)}</div>
+    <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+    ${job.clientAppointment ? `<div class="section">Client appointment: ${escapeHtml(formatDate(job.clientAppointment))}</div>` : ''}
+    ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>` : ''}
+    ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
+    ${includeInstall && job.installDate ? `<div class="section">Install: ${escapeHtml(formatDateOnly(job.installDate))}</div>` : ''}
+    ${job.notes ? `<div class="section">Notes: ${escapeHtml(job.notes)}</div>` : ''}
+    ${job.shop ? `<div class="section">Shop: ${escapeHtml(job.shop)}</div>` : ''}
+    ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
+  `;
+}
 
     function buildSelectOptions(options, selectedValue) {
       return options.map(option => (
