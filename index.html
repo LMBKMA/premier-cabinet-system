@@ -3178,8 +3178,8 @@ body.project-mode .photo-gallery-toggle {
   renderPriorityNow(sorted);
 
   const shopJobs = sorted.filter(job =>
-    job.status === 'In Shop' || job.status === 'Ready to Install'
-  );
+  job.status === 'In Shop'
+);
 
   const activeFinishJobs = sorted.filter(job =>
     job.status === 'Ready for Finish' || job.status === 'In Finish'
