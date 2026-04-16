@@ -1001,11 +1001,14 @@ body.tv-mode #priorityNow {
 
 /* Shop uses 2 columns */
 body.tv-mode #tvShop {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  align-content: start;
-  overflow: hidden;
+  column-count: 2;
+  column-gap: 8px;
+}
+
+body.tv-mode #tvShop .job {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 8px;
 }
 
 /* Finish stays stacked */
@@ -1082,10 +1085,7 @@ body.tv-mode .tv-subhead {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  body.tv-mode #tvShop {
-    grid-template-columns: 1fr;
-  }
-}
+ 
 
     /* =========================
    FINAL TV MODE OVERRIDES
@@ -1134,13 +1134,6 @@ body.tv-mode #priorityNow {
   align-content: start;
 }
 
-body.tv-mode #tvShop {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  align-content: start;
-  overflow: hidden;
-}
 
 body.tv-mode #tvFinish {
   display: block;
