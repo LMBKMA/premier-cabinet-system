@@ -3135,6 +3135,28 @@ body.project-mode .photo-gallery-toggle {
       }
     }
 
+function buildTvShopCard(job) {
+  return `
+    ${buildPriorityBadge(job)}
+    <div class="title">${escapeHtml(job.jobName)}</div>
+    <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+    ${job.installDate ? `<div class="section">Install: ${escapeHtml(formatDateOnly(job.installDate))}</div>` : ''}
+    ${job.shop ? `<div class="section"><strong>Shop Tasks:</strong> ${escapeHtml(job.shop)}</div>` : ''}
+    ${job.issues ? `<div class="section issue"><strong>Issues:</strong> ${escapeHtml(job.issues)}</div>` : ''}
+  `;
+}
+
+function buildTvFinishCard(job, isUpcoming = false) {
+  return `
+    ${buildPriorityBadge(job)}
+    <div class="title">${escapeHtml(job.jobName)}</div>
+    <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
+    ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>` : ''}
+    ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
+    ${job.notes ? `<div class="section"><strong>Notes:</strong> ${escapeHtml(job.notes)}</div>` : ''}
+  `;
+}
+    
     function renderTvColumn(targetId, jobsForColumn, emptyText, maxItems, footerId) {
   const container = $(targetId);
   const footer = $(footerId);
@@ -3152,7 +3174,7 @@ body.project-mode .photo-gallery-toggle {
 
   container.innerHTML = visibleJobs.map(job => `
     <div class="job">
-      ${buildInternalCard(job, true)}
+      ${targetId === 'tvShop' ? buildTvShopCard(job) : buildInternalCard(job, true)}
     </div>
   `).join('');
 
@@ -3219,29 +3241,17 @@ body.project-mode .photo-gallery-toggle {
     ${visibleActive.length ? `
       <div class="section tv-subhead">Active Finish</div>
       ${visibleActive.map(job => `
-        <div class="job">
-          ${buildPriorityBadge(job)}
-          <div class="title">${escapeHtml(job.jobName)}</div>
-          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
-          ${job.finishStartDate ? `<div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>` : ''}
-          ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
-          ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
-        </div>
-      `).join('')}
+  <div class="job">
+    ${buildTvFinishCard(job)}
+  </div>
+`).join('')}
     ` : ''}
 
-    ${visibleUpcoming.length ? `
-      <div class="section tv-subhead" style="margin-top:${visibleActive.length ? '10px' : '0'};">Upcoming Finish</div>
-      ${visibleUpcoming.map(job => `
-        <div class="job">
-          ${buildPriorityBadge(job)}
-          <div class="title">${escapeHtml(job.jobName)}</div>
-          <div class="stage">Stage: ${escapeHtml(job.status || '')}</div>
-          <div class="section">Gets to finish: ${escapeHtml(formatDateOnly(job.finishStartDate))}</div>
-          ${job.finishDue ? `<div class="section">Finish due: ${escapeHtml(formatDateOnly(job.finishDue))}</div>` : ''}
-          ${job.issues ? `<div class="section issue">Issues: ${escapeHtml(job.issues)}</div>` : ''}
-        </div>
-      `).join('')}
+    ${visibleUpcoming.map(job => `
+  <div class="job">
+    ${buildTvFinishCard(job, true)}
+  </div>
+`).join('')}
     ` : ''}
   `;
 
